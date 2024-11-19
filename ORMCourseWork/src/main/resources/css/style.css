@@ -1,0 +1,13 @@
+#btnStudent{
+    -fx-background-color: deeppink;
+    -fx-background-radius: 10%;  /* Circular button */
+    -fx-text-fill: black;  /* White text color */
+    -fx-font-size: 16px; /* Larger font size */
+    -fx-border: 8px solid yellow;
+}
+#rootNode {
+    -fx-background-color: deeppink;
+}
+#btnUser{
+    -fx-background-color: blue;
+}
