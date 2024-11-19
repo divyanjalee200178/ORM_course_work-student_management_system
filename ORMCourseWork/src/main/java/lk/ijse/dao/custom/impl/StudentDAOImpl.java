@@ -96,4 +96,21 @@ public class StudentDAOImpl implements StudentDAO {
         session.close();
         return student;
     }
+
+    public Student getStudentById(String studentId) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+
+
+        Query query = session.createQuery("from Student where id = :id");
+        query.setParameter("id", studentId);
+
+
+        Student student = (Student) query.uniqueResult();
+
+        transaction.commit();
+        session.close();
+
+        return student;
+    }
 }

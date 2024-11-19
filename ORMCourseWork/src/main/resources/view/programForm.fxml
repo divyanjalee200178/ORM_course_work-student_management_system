@@ -8,21 +8,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.ProgramFormController">
+<AnchorPane fx:id="rootNode" prefHeight="430.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.ProgramFormController">
    <children>
       <Text layoutX="226.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Program Form" textAlignment="CENTER" wrappingWidth="179.8900146484375">
          <font>
             <Font name="Calibri Bold Italic" size="24.0" />
          </font>
       </Text>
-      <TextField fx:id="txtId" layoutX="100.0" layoutY="100.0" onAction="#txtIdOnAction" promptText="id" />
-      <TextField fx:id="txtProgramme" layoutX="270.0" layoutY="100.0" onAction="#txtItemOnAction" promptText="program" />
-      <TextField fx:id="txtPrice" layoutX="100.0" layoutY="150.0" onAction="#txtPriceOnAction" promptText="fee" />
-      <TextField fx:id="txtDuration" layoutX="270.0" layoutY="150.0" onAction="#txtDurationOnAction" promptText="duration year" />
-      <Button layoutX="446.0" layoutY="95.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="54.0" style="-fx-background-color: lightgreen;" text="save" />
-      <Button layoutX="446.0" layoutY="125.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" style="-fx-background-color: gray;" text="update" />
-      <Button layoutX="446.0" layoutY="155.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="25.0" prefWidth="54.0" style="-fx-background-color: tomato;" text="delete" />
-      <TableView fx:id="tblProgramme" layoutY="204.0" prefHeight="200.0" prefWidth="600.0">
+      <TextField fx:id="txtId" layoutX="100.0" layoutY="88.0" onAction="#txtIdOnAction" promptText="id" />
+      <TextField fx:id="txtProgramme" layoutX="383.0" layoutY="88.0" onAction="#txtItemOnAction" promptText="program" />
+      <TextField fx:id="txtPrice" layoutX="100.0" layoutY="138.0" onAction="#txtPriceOnAction" promptText="fee" />
+      <TextField fx:id="txtDuration" layoutX="383.0" layoutY="138.0" onAction="#txtDurationOnAction" promptText="duration year" />
+      <Button layoutX="121.0" layoutY="182.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="54.0" style="-fx-background-color: lightgreen;" text="save" />
+      <Button layoutX="289.0" layoutY="182.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" style="-fx-background-color: gray;" text="update" />
+      <Button layoutX="458.0" layoutY="182.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="25.0" prefWidth="54.0" style="-fx-background-color: tomato;" text="delete" />
+      <TableView fx:id="tblProgramme" layoutX="32.0" layoutY="222.0" prefHeight="200.0" prefWidth="621.0">
         <columns>
           <TableColumn fx:id="clmId" prefWidth="127.33331298828125" text="ID" />
           <TableColumn fx:id="clmName" prefWidth="173.33334350585938" text="Name" />

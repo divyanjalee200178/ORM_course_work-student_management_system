@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.ProgrammeBO;
 import lk.ijse.models.ProgramDTO;
@@ -17,6 +18,10 @@ import lk.ijse.view.tdm.ProgramTm;
 import java.util.List;
 
 public class ProgramFormController {
+
+    @FXML
+    private AnchorPane rootNode;
+
 
     @FXML
     private TableColumn<?, ?> clmDuration;
@@ -122,9 +127,9 @@ public class ProgramFormController {
             setItemTable();
             setCellValueFactory();
             tblProgramme.refresh();
-            new Alert(Alert.AlertType.CONFIRMATION, "Item deleted successfully").show();
+            new Alert(Alert.AlertType.CONFIRMATION, "Program deleted successfully").show();
         } else {
-            new Alert(Alert.AlertType.ERROR, "Item deleted unsuccessfully");
+            new Alert(Alert.AlertType.ERROR, "program deleted unsuccessfully");
         }
     }
 
@@ -137,9 +142,9 @@ public class ProgramFormController {
             setItemTable();
             setCellValueFactory();
             tblProgramme.refresh();
-            new Alert(Alert.AlertType.CONFIRMATION, "Item saved successfully").show();
+            new Alert(Alert.AlertType.CONFIRMATION, "Program saved successfully").show();
         } else {
-            new Alert(Alert.AlertType.ERROR, "Item saved unsuccessfully");
+            new Alert(Alert.AlertType.ERROR, "Program saved unsuccessfully");
         }
     }
 
@@ -151,9 +156,9 @@ public class ProgramFormController {
             setItemTable();
             setCellValueFactory();
             tblProgramme.refresh();
-            new Alert(Alert.AlertType.CONFIRMATION, "Item updated successfully").show();
+            new Alert(Alert.AlertType.CONFIRMATION, "Program updated successfully").show();
         } else {
-            new Alert(Alert.AlertType.ERROR, "Item updated unsuccessfully");
+            new Alert(Alert.AlertType.ERROR, "Program updated unsuccessfully");
         }
     }
 

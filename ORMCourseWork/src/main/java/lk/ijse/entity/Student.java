@@ -1,77 +1,43 @@
 package lk.ijse.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 public class Student {
     @Id
     private String id;
     private String name;
     private String address;
-    private String tel;
     private String email;
+    private String tel;
+    private double payment;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "studentProgramme",
+            joinColumns = @JoinColumn(name = "s_id"),
+            inverseJoinColumns = @JoinColumn(name = "p_code")
+    )
+    private Set<Program> programs = new HashSet<>();
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", tel='" + tel + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
+    @OneToMany(mappedBy = "student")
+    private Set<Payment> payments = new HashSet<>();
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Student(String id, String name, String address, String tel, String email) {
+    public Student(String id, String name, String address, String email, String tel, double payment) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.tel = tel;
         this.email = email;
-    }
-
-    public Student() {
+        this.tel = tel;
+        this.payment = payment;
     }
 }

@@ -34,10 +34,15 @@ public class DashboardFormController {
     private Button btnStudent;
 
     @FXML
+    private Button btnPayment;
+
+    @FXML
     private AnchorPane miniDash;
 
     @FXML
     private AnchorPane rootNode;
+
+
 
     @FXML
     void btnBack1OnAction(ActionEvent event) throws IOException {
@@ -71,17 +76,29 @@ public class DashboardFormController {
 
     @FXML
     void btnProgramOnAction(ActionEvent event) throws IOException {
-        AnchorPane anchorPane=FXMLLoader.load(getClass().getResource("/view/programForm.fxml"));
-        Stage stage=(Stage) rootNode.getScene().getWindow();
+        try {
+            AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/programForm.fxml"));
+            miniDash.getChildren().clear();
+            miniDash.getChildren().add(rootNode);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        stage.setScene(new Scene(anchorPane));
-        stage.setTitle("Login Form");
-        stage.centerOnScreen();
+    @FXML
+    void btnPaymentOnAction(ActionEvent event) {
+        try {
+            AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/payment_form.fxml"));
+            miniDash.getChildren().clear();
+            miniDash.getChildren().add(rootNode);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
     void btnRegiOnAction(ActionEvent event) throws IOException {
-        AnchorPane anchorPane=FXMLLoader.load(getClass().getResource("/view/register_form.fxml"));
+        AnchorPane anchorPane=FXMLLoader.load(getClass().getResource("/view/registerForm.fxml"));
         Stage stage=(Stage) rootNode.getScene().getWindow();
 
         stage.setScene(new Scene(anchorPane));
@@ -91,20 +108,24 @@ public class DashboardFormController {
 
     @FXML
     void btnStuOnAction(ActionEvent event) throws IOException {
-        AnchorPane anchorPane=FXMLLoader.load(getClass().getResource("/view/Student_form.fxml"));
-        Stage stage=(Stage) rootNode.getScene().getWindow();
-
-        stage.setScene(new Scene(anchorPane));
-        stage.setTitle("Login Form");
-        stage.centerOnScreen();
+        try {
+            AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/Student_form.fxml"));
+            miniDash.getChildren().clear();
+            miniDash.getChildren().add(rootNode);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+//    scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
     @FXML
     void btnUserOnAction(ActionEvent event) throws IOException {
-        AnchorPane anchorPane=FXMLLoader.load(getClass().getResource("/view/user_form.fxml"));
-        Stage stage=(Stage) rootNode.getScene().getWindow();
-
-        stage.setScene(new Scene(anchorPane));
-        stage.setTitle("Login Form");
-        stage.centerOnScreen();
+        try {
+            AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/user_form.fxml"));
+            miniDash.getChildren().clear();
+            miniDash.getChildren().add(rootNode);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

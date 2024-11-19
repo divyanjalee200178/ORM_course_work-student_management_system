@@ -96,4 +96,18 @@ public class ProgramDAOImpl implements ProgramDAO {
         session.close();
         return item;
     }
+
+    public Program getProgramByCode(String programCode) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("from Program where code = :code");
+        query.setParameter("code", programCode);
+
+        Program program = (Program) query.uniqueResult();
+
+        transaction.commit();
+        session.close();
+
+        return program;
+    }
 }

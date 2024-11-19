@@ -122,9 +122,9 @@ public class UserFormController {
             setValueFactory();
             tblUser.refresh();
             txtId.setText(generateUserId());
-            new Alert(Alert.AlertType.CONFIRMATION,"Customer delete successfully").show();
+            new Alert(Alert.AlertType.CONFIRMATION,"User delete successfully").show();
         } else {
-            new Alert(Alert.AlertType.ERROR,"Customer delete unsuccessfully").show();
+            new Alert(Alert.AlertType.ERROR,"User delete unsuccessfully").show();
         }
     }
 
@@ -150,14 +150,14 @@ public class UserFormController {
         try {
             String currentId = userBO.getCurrentId();
             if (currentId != null) {
-                String[] split = currentId.split("C00");
+                String[] split = currentId.split("U00");
                 int idNum = Integer.parseInt(split[1]);
-                String availableId = "C00" + ++idNum;
+                String availableId = "U00" + ++idNum;
                 txtId.setText(availableId);
                 return availableId;
             } else {
-                txtId.setText("C001");
-                return "C001";
+                txtId.setText("U001");
+                return "U001";
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -197,6 +197,7 @@ public class UserFormController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
+        String hashedPassword = Password.hashPassword(txtPassword.getText());
         boolean isSaved = userBO.save(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(), txtTel.getText(), txtEmail.getText(),txtPassword.getText()));
         if (isSaved){
             clearTextFields();
@@ -224,9 +225,9 @@ public class UserFormController {
             setValueFactory();
             tblUser.refresh();
             txtId.setText(generateUserId());
-            new Alert(Alert.AlertType.CONFIRMATION,"Customer update successfully").show();
+            new Alert(Alert.AlertType.CONFIRMATION,"User update successfully").show();
         } else {
-            new Alert(Alert.AlertType.ERROR,"Customer update unsuccessfully").show();
+            new Alert(Alert.AlertType.ERROR,"User update unsuccessfully").show();
         }
     }
 
