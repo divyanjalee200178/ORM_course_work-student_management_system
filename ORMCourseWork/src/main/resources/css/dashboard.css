@@ -1,0 +1,18 @@
+#ancho{
+    -fx-background-color: #7cb9e8;
+}
+#minancho{
+    -fx-background-color: #e7feff;
+}
+#btn{
+    -fx-background-color:#ffddca ;
+    -fx-font-size: 15px;
+    -fx-border-color: black;
+    -fx-border-style: groove;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-family: "serif";
+}
+#btn:hover{
+    -fx-background-color: red;
+}
