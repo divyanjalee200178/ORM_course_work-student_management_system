@@ -7,39 +7,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="rootNode" prefHeight="690.0" prefWidth="1112.0" style="-fx-background-color: #d63031;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.DashboardFormController">
+<AnchorPane id="ancho" fx:id="rootNode" prefHeight="690.0" prefWidth="1112.0" stylesheets="@../css/dashboard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.DashboardFormController">
    <children>
-      <AnchorPane fx:id="miniDash" layoutX="221.0" layoutY="10.0" prefHeight="663.0" prefWidth="868.0" style="-fx-background-color: #dfe6e9;">
+      <AnchorPane id="minancho" fx:id="miniDash" layoutX="221.0" layoutY="10.0" prefHeight="663.0" prefWidth="868.0" stylesheets="@../css/dashboard.css">
          <children>
-            <ImageView fitHeight="645.0" fitWidth="362.0" layoutX="288.0" layoutY="2.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icon/dash-back.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="578.0" fitWidth="882.0" layoutX="-3.0" layoutY="84.0" opacity="0.39" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icon/new2.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="600.0" fitWidth="879.0" layoutX="-3.0" layoutY="2.0" opacity="0.45" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icon/new2.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="324.0" fitWidth="485.0" layoutX="387.0" layoutY="338.0" opacity="0.45" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icon/new2.jpg" />
-               </image></ImageView>
-            <ImageView fitHeight="504.0" fitWidth="687.0" layoutX="184.0" layoutY="1.0" opacity="0.45" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icon/new2.jpg" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="364.0" fitWidth="419.0" layoutX="452.0" layoutY="2.0" opacity="0.45" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icon/new2.jpg" />
-               </image>
-            </ImageView>
             <Text fill="#bf1a17" layoutX="375.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dashboard">
                <font>
                   <Font name="System Bold" size="24.0" />
@@ -48,35 +19,20 @@
             <Button fx:id="btnBack1" layoutX="690.0" layoutY="576.0" mnemonicParsing="false" onAction="#btnBack1OnAction" prefHeight="37.0" prefWidth="81.0" style="-fx-background-color: #EE5A24;" text="&lt; Back" />
          </children>
       </AnchorPane>
-      <ImageView fitHeight="323.0" fitWidth="225.0" layoutX="-6.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icon/dash2.jpg" />
-         </image>
-      </ImageView>
       <Text fill="#05fc32" layoutX="57.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You can manage !" />
       <ImageView fitHeight="56.0" fitWidth="81.0" layoutX="86.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icon/shop-icon.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="btnDash" layoutX="14.0" layoutY="113.0" mnemonicParsing="false" onAction="#btnDashOnAction" prefHeight="56.0" prefWidth="184.0" style="-fx-background-color: #FFFFFF;" text="Dashboard">
+      <Button id="btn" fx:id="btnDash" layoutX="14.0" layoutY="113.0" mnemonicParsing="false" onAction="#btnDashOnAction" prefHeight="56.0" prefWidth="184.0" stylesheets="@../css/dashboard.css" text="Dashboard">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <ImageView fitHeight="317.0" fitWidth="225.0" layoutX="-7.0" layoutY="323.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icon/dash2.jpg" />
-         </image>
-      </ImageView>
-      <Button fx:id="btnStudent" layoutX="14.0" layoutY="189.0" mnemonicParsing="false" onAction="#btnStuOnAction" prefHeight="56.0" prefWidth="184.0" style="-fx-background-color: #FFFFFF;" text="   Student Manage">
+      <Button id="btn" fx:id="btnStudent" layoutX="14.0" layoutY="189.0" mnemonicParsing="false" onAction="#btnStuOnAction" prefHeight="56.0" prefWidth="184.0" stylesheets="@../css/dashboard.css" text="   Student Manage">
          <font>
             <Font size="14.0" />
          </font></Button>
-      <ImageView fitHeight="317.0" fitWidth="225.0" layoutX="-6.0" layoutY="358.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icon/dash2.jpg" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="20.0" fitWidth="25.0" layoutX="27.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icon/dashboard-icon.png" />
@@ -87,7 +43,7 @@
             <Image url="@../icon/item-icon.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnProgramme" layoutX="14.0" layoutY="270.0" mnemonicParsing="false" onAction="#btnProgramOnAction" prefHeight="56.0" prefWidth="184.0" style="-fx-background-color: #FFFFFF;" text="Programme">
+      <Button id="btn" fx:id="btnProgramme" layoutX="14.0" layoutY="270.0" mnemonicParsing="false" onAction="#btnProgramOnAction" prefHeight="56.0" prefWidth="184.0" stylesheets="@../css/dashboard.css" text="Programme Mnage">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -96,7 +52,7 @@
             <Image url="@../icon/order-icon.jpeg" />
          </image>
       </ImageView>
-      <Button fx:id="btnRegister" layoutX="14.0" layoutY="346.0" mnemonicParsing="false" onAction="#btnRegiOnAction" prefHeight="56.0" prefWidth="184.0" style="-fx-background-color: #FFFFFF;" text="       Register Manage">
+      <Button id="btn" fx:id="btnRegister" layoutX="14.0" layoutY="346.0" mnemonicParsing="false" onAction="#btnRegiOnAction" prefHeight="56.0" prefWidth="184.0" stylesheets="@../css/dashboard.css" text="       Register Manage">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -105,7 +61,7 @@
             <Image url="@../icon/customer-icon.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnLogin" layoutX="15.0" layoutY="517.0" mnemonicParsing="false" onAction="#btnLogOnAction" prefHeight="56.0" prefWidth="184.0" style="-fx-background-color: #FFFFFF;" text="Login">
+      <Button id="btn" fx:id="btnLogin" layoutX="15.0" layoutY="517.0" mnemonicParsing="false" onAction="#btnLogOnAction" prefHeight="56.0" prefWidth="184.0" stylesheets="@../css/dashboard.css" text="Login">
          <font>
             <Font size="14.0" />
          </font>
@@ -115,11 +71,7 @@
             <Image url="@../icon/payment-icon.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="btnUser" layoutX="15.0" layoutY="426.0" mnemonicParsing="false" onAction="#btnUserOnAction" prefHeight="56.0" prefWidth="184.0" style="-fx-background-color: #FFFFFF;" text="User">
+      <Button id="btn" fx:id="btnUser" layoutX="15.0" layoutY="426.0" mnemonicParsing="false" onAction="#btnUserOnAction" prefHeight="56.0" prefWidth="184.0" stylesheets="@../css/dashboard.css" text="User Manage">
          <font>
             <Font size="14.0" />
          </font>
@@ -129,10 +81,15 @@
             <Image url="@../icon/payment-icon.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnPayment" layoutX="15.0" layoutY="596.0" mnemonicParsing="false" onAction="#btnPaymentOnAction" prefHeight="56.0" prefWidth="184.0" style="-fx-background-color: #FFFFFF;" text="Payment">
+      <Button id="btn" fx:id="btnPayment" layoutX="15.0" layoutY="596.0" mnemonicParsing="false" onAction="#btnPaymentOnAction" prefHeight="56.0" prefWidth="184.0" stylesheets="@../css/dashboard.css" text="Payment Manage">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
+      <ImageView fitHeight="20.0" fitWidth="25.0" layoutX="35.0" layoutY="614.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icon/customer-icon.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

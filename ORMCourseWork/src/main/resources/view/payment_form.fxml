@@ -5,15 +5,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="rootNode" prefHeight="668.0" prefWidth="872.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.PaymentFormController">
+<AnchorPane id="ancho" fx:id="rootNode" prefHeight="668.0" prefWidth="872.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.PaymentFormController">
    <children>
-      <Text layoutX="260.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment manage">
+      <Text fill="#22d307" layoutX="353.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment manage" textAlignment="CENTER">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="20.0" />
          </font>
       </Text>
       <Text layoutX="64.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Program Id :" />
@@ -23,14 +26,63 @@
       <Text layoutX="64.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payed price :" />
       <Text layoutX="491.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount :" />
       <Text layoutX="486.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full payment  :" />
-      <ComboBox fx:id="cmbProId" layoutX="61.0" layoutY="196.0" onAction="#cmbProIdOnAction" prefHeight="25.0" prefWidth="184.0" />
-      <ComboBox fx:id="cmbStId" layoutX="485.0" layoutY="107.0" onAction="#cmbStIdOnAction" prefHeight="25.0" prefWidth="184.0" />
-      <Label fx:id="lblProName" layoutX="64.0" layoutY="293.0" onDragDetected="#lblProNameOnAction" prefHeight="25.0" prefWidth="178.0" text="program name" />
-      <Label fx:id="lblStName" layoutX="488.0" layoutY="209.0" onDragDetected="#lblStNameOnAction" prefHeight="25.0" prefWidth="178.0" text="student name" />
-      <Label fx:id="lblPayment" layoutX="64.0" layoutY="368.0" onDragDetected="#lblPaymentOnAction" prefHeight="25.0" prefWidth="178.0" text="Payment" />
-      <Label fx:id="lblAmount" layoutX="488.0" layoutY="293.0" onDragDetected="#lblAmountOnAction" prefHeight="25.0" prefWidth="178.0" text="Amount" />
-      <Label fx:id="lblFullPay" layoutX="488.0" layoutY="368.0" onDragDetected="#lblFullPayOnAction" prefHeight="25.0" prefWidth="178.0" text="Full payment" />
-      <TableView fx:id="tblPayment" layoutX="25.0" layoutY="443.0" prefHeight="196.0" prefWidth="823.0">
+      <ComboBox id="cmb" fx:id="cmbProId" layoutX="61.0" layoutY="196.0" onAction="#cmbProIdOnAction" prefHeight="25.0" prefWidth="184.0" stylesheets="@../css/style.css">
+         <effect>
+            <InnerShadow>
+               <color>
+                  <Color red="0.6578947305679321" green="0.642665684223175" blue="0.642665684223175" />
+               </color>
+            </InnerShadow>
+         </effect></ComboBox>
+      <ComboBox id="cmb" fx:id="cmbStId" layoutX="485.0" layoutY="107.0" onAction="#cmbStIdOnAction" prefHeight="25.0" prefWidth="184.0" stylesheets="@../css/style.css">
+         <effect>
+            <InnerShadow>
+               <color>
+                  <Color red="0.9078947305679321" green="0.7944079041481018" blue="0.7944079041481018" />
+               </color>
+            </InnerShadow>
+         </effect></ComboBox>
+      <Label id="label" fx:id="lblProName" layoutX="64.0" layoutY="293.0" onDragDetected="#lblProNameOnAction" prefHeight="25.0" prefWidth="178.0" stylesheets="@../css/style.css" text="program name">
+         <effect>
+            <DropShadow height="15.14" radius="7.07" width="15.14">
+               <color>
+                  <Color red="0.6313725709915161" green="0.6078431606292725" blue="0.6078431606292725" />
+               </color>
+            </DropShadow>
+         </effect></Label>
+      <Label id="label" fx:id="lblStName" layoutX="488.0" layoutY="209.0" onDragDetected="#lblStNameOnAction" prefHeight="25.0" prefWidth="178.0" stylesheets="@../css/style.css" text="student name">
+         <effect>
+            <DropShadow height="15.14" radius="6.3375" width="12.21">
+               <color>
+                  <Color red="0.6313725709915161" green="0.6078431606292725" blue="0.6078431606292725" />
+               </color>
+            </DropShadow>
+         </effect></Label>
+      <Label id="label" fx:id="lblPayment" layoutX="64.0" layoutY="368.0" onDragDetected="#lblPaymentOnAction" prefHeight="25.0" prefWidth="178.0" stylesheets="@../css/style.css" text="Payment">
+         <effect>
+            <DropShadow height="15.14" radius="7.07" width="15.14">
+               <color>
+                  <Color red="0.6313725709915161" green="0.6078431606292725" blue="0.6078431606292725" />
+               </color>
+            </DropShadow>
+         </effect></Label>
+      <Label id="label" fx:id="lblAmount" layoutX="488.0" layoutY="293.0" onDragDetected="#lblAmountOnAction" prefHeight="25.0" prefWidth="178.0" stylesheets="@../css/style.css" text="Amount">
+         <effect>
+            <DropShadow height="18.07" radius="7.8025" width="15.14">
+               <color>
+                  <Color red="0.6313725709915161" green="0.6078431606292725" blue="0.6078431606292725" />
+               </color>
+            </DropShadow>
+         </effect></Label>
+      <Label id="label" fx:id="lblFullPay" layoutX="488.0" layoutY="368.0" onDragDetected="#lblFullPayOnAction" prefHeight="25.0" prefWidth="178.0" stylesheets="@../css/style.css" text="Full payment">
+         <effect>
+            <DropShadow height="15.14" radius="7.07" width="15.14">
+               <color>
+                  <Color red="0.6313725709915161" green="0.6078431606292725" blue="0.6078431606292725" />
+               </color>
+            </DropShadow>
+         </effect></Label>
+      <TableView id="tabel" fx:id="tblPayment" layoutX="25.0" layoutY="443.0" prefHeight="196.0" prefWidth="823.0" stylesheets="@../css/style.css">
         <columns>
           <TableColumn fx:id="colPayId" prefWidth="110.0" text="Payment Id" />
           <TableColumn fx:id="colProgramId" prefWidth="116.0" text="Programme Id" />
@@ -41,9 +93,23 @@
         </columns>
       </TableView>
       <Text layoutX="64.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Id :" />
-      <Label fx:id="txtPaymentId" layoutX="64.0" layoutY="107.0" onDragDetected="#lblPaymentIdOnAction" prefHeight="25.0" prefWidth="178.0" text="payment id" />
-      <Button fx:id="btnSave" layoutX="153.0" layoutY="406.0" mnemonicParsing="false" onAction="#btnSaveOnAction" text="Save" />
-      <Button fx:id="btnUpdate" layoutX="242.0" layoutY="406.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" />
-      <Button fx:id="btnDelete" layoutX="340.0" layoutY="406.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" text="Delete" />
+      <Label id="label" fx:id="txtPaymentId" layoutX="64.0" layoutY="107.0" onDragDetected="#lblPaymentIdOnAction" prefHeight="25.0" prefWidth="178.0" stylesheets="@../css/style.css" text="payment id">
+         <effect>
+            <DropShadow height="5.86" radius="2.55" width="6.34">
+               <color>
+                  <Color red="0.6313725709915161" green="0.6078431606292725" blue="0.6078431606292725" />
+               </color>
+            </DropShadow>
+         </effect></Label>
+      <Button id="btn" fx:id="btnSave" layoutX="208.0" layoutY="406.0" mnemonicParsing="false" onAction="#btnSaveOnAction" stylesheets="@../css/style.css" text="Save" />
+      <Button id="btn" fx:id="btnUpdate" layoutX="320.0" layoutY="406.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" stylesheets="@../css/style.css" text="Update" />
+      <Button id="btn" fx:id="btnDelete" layoutX="436.0" layoutY="406.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" stylesheets="@../css/style.css" text="Delete" />
    </children>
+   <effect>
+      <InnerShadow choke="0.03" radius="6.215" width="5.86">
+         <color>
+            <Color red="0.18421052396297455" green="0.17141813039779663" blue="0.17141813039779663" />
+         </color>
+      </InnerShadow>
+   </effect>
 </AnchorPane>
