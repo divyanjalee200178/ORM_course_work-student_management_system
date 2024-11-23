@@ -14,24 +14,24 @@ public class StudentBOImpl implements StudentBO {
    // private static CustomerDAOImpl customerDAOImpl;
    StudentDAO studentDAO = (StudentDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.STUDENT);
 
-    public boolean save(StudentDTO customerDto) {
-        return studentDAO.save(new Student(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel(),customerDto.getEmail(),customerDto.getPayment()));
+    public boolean save(StudentDTO studentDTO) {
+        return studentDAO.save(new Student(studentDTO.getId(),studentDTO.getName(),studentDTO.getAddress(),studentDTO.getTel(),studentDTO.getEmail(),studentDTO.getPayment(),studentDTO.getUserId()));
     }
 
     @Override
-    public boolean update(StudentDTO customerDto) {
-        return studentDAO.update( new Student(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel(),customerDto.getEmail(),customerDto.getPayment()));
+    public boolean update(StudentDTO studentDTO) {
+        return studentDAO.update( new Student(studentDTO.getId(),studentDTO.getName(),studentDTO.getAddress(),studentDTO.getTel(),studentDTO.getEmail(),studentDTO.getPayment(),studentDTO.getUserId()));
     }
 
     @Override
-    public boolean delete(StudentDTO customerDto) {
-        return studentDAO.delete(new Student(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel(),customerDto.getEmail(),customerDto.getPayment()));
+    public boolean delete(StudentDTO studentDTO) {
+        return studentDAO.delete(new Student(studentDTO.getId(),studentDTO.getName(),studentDTO.getAddress(),studentDTO.getTel(),studentDTO.getEmail(),studentDTO.getPayment(),studentDTO.getUserId()));
     }
 
     @Override
     public StudentDTO get(String value) {
         Student object = studentDAO.getObject(value);
-        return new StudentDTO(object.getId(),object.getName(),object.getAddress(),object.getTel(),object.getEmail(),object.getPayment());
+        return new StudentDTO(object.getId(),object.getName(),object.getAddress(),object.getTel(),object.getEmail(),object.getPayment(),object.getUserId());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class StudentBOImpl implements StudentBO {
         List<StudentDTO> studentDTOS = new ArrayList<>();
         List<Student> all = studentDAO.getAll();
         for (Student student : all){
-            studentDTOS.add(new StudentDTO(student.getId(),student.getName(),student.getAddress(),student.getTel(),student.getEmail(),student.getPayment()));
+            studentDTOS.add(new StudentDTO(student.getId(),student.getName(),student.getAddress(),student.getTel(),student.getEmail(),student.getPayment(),student.getUserId()));
         }
         return studentDTOS;
     }

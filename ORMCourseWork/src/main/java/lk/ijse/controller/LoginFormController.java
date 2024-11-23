@@ -10,7 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.UserBO;
 import lk.ijse.entity.User;
+import lk.ijse.models.UserDTO;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -32,6 +34,8 @@ private TextField txtPassword;
 private TextField txtUserID;
 @FXML
 private AnchorPane rootNode;
+@FXML
+private TextField txtRoll;
 
 
 
@@ -39,23 +43,48 @@ private AnchorPane rootNode;
     void btnLoginOnAction(ActionEvent event) throws IOException, ClassNotFoundException {
     String userID = txtUserID.getText();
     String password = txtPassword.getText();
+    String roll=txtRoll.getText();
 
     try {
-        checkCredential(userID, password);
+        checkCredential(userID, password,roll);
     } catch (SQLException e) {
         new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
     }
 }
 
-   private void checkCredential(String userId, String password) throws SQLException, IOException, ClassNotFoundException {
-
-       navigateToTheDashboard();
-   }
+    private void checkCredential(String userId, String password, String roll) throws SQLException, IOException, ClassNotFoundException {
+        UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
+        UserDTO user = userBO.getUsersIdAndPasswordAndRole(userId, password, roll);
+        if (user != null) {
+            if (user.getRole().toLowerCase().equals("cordinator")||user.getRole().toLowerCase().equals("Cordinator")) {
+                navigateToTheDashboard();
+            }
+            else if (user.getRole().toLowerCase().equals("admin")||user.getRole().toLowerCase().equals("Admin")) {
+                navigateToTheAdminDashboard();
+            }
+            else {
+                new Alert(Alert.AlertType.ERROR, "Invalid role!").show();
+            }
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Invalid credentials! Please try again.").show();
+        }
+    }
 
 
 
     private void navigateToTheDashboard() throws IOException {
         AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/dashboard_form.fxml"));
+
+        Scene scene = new Scene(rootNode);
+
+        Stage stage = (Stage) this.rootNode.getScene().getWindow();
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.setTitle("Dashboard Form");
+    }
+
+    private void navigateToTheAdminDashboard() throws IOException {
+        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/admin_dashboard_form.fxml"));
 
         Scene scene = new Scene(rootNode);
 
@@ -92,6 +121,10 @@ private AnchorPane rootNode;
     }
 
     public void txtPasswordOnAction(MouseEvent mouseEvent) {
+    }
+    @FXML
+    void txtRollOnAction(ActionEvent event) {
+
     }
 
     public void hypForgetOnAction(ActionEvent actionEvent) throws IOException {

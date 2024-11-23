@@ -9,6 +9,7 @@ import lk.ijse.entity.User;
 import lk.ijse.models.StudentDTO;
 import lk.ijse.models.UserDTO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +53,16 @@ public class UserBOImpl implements UserBO {
     @Override
     public String getCurrentId() {
         return userDAO.getCurrentId();
+    }
+
+    @Override
+    public UserDTO getUsersIdAndPasswordAndRole(String userId, String password, String roll) throws SQLException {
+        User user = userDAO.getUsersIdPasswordAndRole(userId, password, roll);
+
+        if (user != null) {
+            return new UserDTO(user.getId(), user.getName(), user.getRole(), user.getTel(), user.getEmail(), user.getPassword());
+        }
+        return null;
     }
 
 }

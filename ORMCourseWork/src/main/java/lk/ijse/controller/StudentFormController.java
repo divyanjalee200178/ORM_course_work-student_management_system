@@ -12,7 +12,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.StudentBO;
+import lk.ijse.bo.custom.UserBO;
 import lk.ijse.models.StudentDTO;
+import lk.ijse.models.UserDTO;
 import lk.ijse.view.tdm.StudentTm;
 
 import java.io.IOException;
@@ -41,7 +43,8 @@ public class StudentFormController {
     @FXML
     private Button btnExit;
 
-
+    @FXML
+    private ComboBox<String> cmbUserId;
     @FXML
     private TableColumn<?, ?> colAddress;
 
@@ -59,6 +62,9 @@ public class StudentFormController {
 
     @FXML
     private TableColumn<?, ?> colPay;
+
+    @FXML
+    private TableColumn<?, ?> colUserId;
 
     @FXML
     private AnchorPane rootNode;
@@ -87,12 +93,14 @@ public class StudentFormController {
 
 
     StudentBO studentBO = (StudentBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.STUDENT);
+    UserBO userBO= (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
 
     public void initialize(){
         setTable();
         setValueFactory();
         selectTableRow();
         generateCustomerId();
+        loadUserIds();
     }
 
 
@@ -105,6 +113,7 @@ public class StudentFormController {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colTel.setCellValueFactory(new PropertyValueFactory<>("tel"));
         colPay.setCellValueFactory(new PropertyValueFactory<>("payment"));
+        colUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
 
     void clearTextFields(){
@@ -114,10 +123,19 @@ public class StudentFormController {
         txtEmail.clear();
         txtTel.clear();
         txtPay.clear();
+//        cmbUserId.clear();
     }
 
     private void getCurrentStId() {
 
+    }
+    private void loadUserIds(){
+        ObservableList<String> userIds = FXCollections.observableArrayList();
+        List<UserDTO> allUsers = userBO.getAll();
+        for (UserDTO userDto : allUsers) {
+            userIds.add(userDto.getId());
+        }
+        cmbUserId.setItems(userIds);
     }
 
 
@@ -133,7 +151,7 @@ public class StudentFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        boolean isDeleted = studentBO.delete(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), txtTel.getText(), txtEmail.getText(),Double.parseDouble(txtPay.getText())));
+        boolean isDeleted = studentBO.delete(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), txtTel.getText(), txtEmail.getText(),Double.parseDouble(txtPay.getText()), (String) cmbUserId.getValue()));
         if (isDeleted){
             clearTextFields();
             setTable();
@@ -163,7 +181,7 @@ public class StudentFormController {
 
     @FXML
     void btnSavetOnAction(ActionEvent event) {
-        boolean isSaved = studentBO.save(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), txtEmail.getText(), txtTel.getText(), Double.parseDouble(txtPay.getText())));
+        boolean isSaved = studentBO.save(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), txtEmail.getText(), txtTel.getText(), Double.parseDouble(txtPay.getText()), (String) cmbUserId.getValue()));
         if (isSaved) {
             clearTextFields();
             setTable();
@@ -209,7 +227,8 @@ public class StudentFormController {
                     studentDTO.getAddress(),
                     studentDTO.getEmail(),
                     studentDTO.getTel(),
-                    studentDTO.getPayment()
+                    studentDTO.getPayment(),
+                    studentDTO.getUserId()
             );
             studentTms.add(studentTm);
         }
@@ -227,6 +246,7 @@ public class StudentFormController {
             txtTel.setText(String.valueOf(studentTm.getTel()));
             txtEmail.setText(studentTm.getEmail());
             txtPay.setText(String.valueOf(studentTm.getPayment()));
+            cmbUserId.getSelectionModel().select(Integer.parseInt(studentTm.getUserId()));
         });
     }
     @FXML
@@ -236,7 +256,7 @@ public class StudentFormController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        boolean isUpdated = studentBO.update(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), (txtTel.getText()), txtEmail.getText(),Double.parseDouble(txtPay.getText())));
+        boolean isUpdated = studentBO.update(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), (txtTel.getText()), txtEmail.getText(),Double.parseDouble(txtPay.getText()), (String) cmbUserId.getValue()));
         if (isUpdated){
             clearTextFields();
             setTable();
@@ -275,6 +295,11 @@ public class StudentFormController {
     @FXML
     void txtTelOnAction(ActionEvent event) {
         txtAddress.requestFocus();
+    }
+
+    @FXML
+    void cmbUserIdOnAction(ActionEvent event) {
+
     }
 
 }

@@ -20,6 +20,12 @@ public class Student {
     private String email;
     private String tel;
     private double payment;
+    private String userId;
+
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -32,12 +38,14 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private Set<Payment> payments = new HashSet<>();
 
-    public Student(String id, String name, String address, String email, String tel, double payment) {
+    public Student(String id, String name, String address, String email, String tel, double payment,String userId) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.email = email;
         this.tel = tel;
         this.payment = payment;
+        this.userId=userId;
+
     }
 }

@@ -97,4 +97,21 @@ public class UserDAOImpl implements UserDAO {
         session.close();
         return user;
     }
+
+        @Override
+        public User getUsersIdPasswordAndRole(String userId, String password, String role) throws SQLException {
+            Session session = FactoryConfiguration.getInstance().getSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("from User where id = :userId and password = :password and role = :role");
+            query.setParameter("userId", userId);
+            query.setParameter("password", password);
+            query.setParameter("role", role);
+            User user = (User) query.uniqueResult();
+            transaction.commit();
+            session.close();
+
+            return user;
+        }
+
+
 }

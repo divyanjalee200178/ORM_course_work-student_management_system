@@ -4,6 +4,7 @@ import lk.ijse.bo.SuperBO;
 import lk.ijse.models.StudentDTO;
 import lk.ijse.models.UserDTO;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface UserBO extends SuperBO {
@@ -19,4 +20,5 @@ public interface UserBO extends SuperBO {
     List<String> getIds();
 
     String getCurrentId();
+    UserDTO getUsersIdAndPasswordAndRole(String userId, String password, String roll) throws SQLException;
 }

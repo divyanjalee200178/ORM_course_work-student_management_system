@@ -3,6 +3,16 @@ package lk.ijse.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@AllArgsConstructor
+@Data
+
 @Entity
 public class User {
     @Id
@@ -12,6 +22,9 @@ public class User {
     private String tel;
     private String email;
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Student> students;
 
     @Override
     public String toString() {
@@ -25,53 +38,7 @@ public class User {
                 '}';
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public User(String id, String name, String role, String tel, String email, String password) {
         this.id = id;

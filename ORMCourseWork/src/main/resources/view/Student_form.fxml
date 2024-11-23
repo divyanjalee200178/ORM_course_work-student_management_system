@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -27,35 +28,38 @@
             <TextField id="text" fx:id="txtTel" layoutX="-47.0" layoutY="244.0" onAction="#txtTelOnAction" prefHeight="24.0" prefWidth="214.0" stylesheets="@../css/customer.css" />
             <TextField id="text" fx:id="txtAddress" layoutX="365.0" layoutY="111.0" onAction="#txtAddressOnAction" prefHeight="24.0" prefWidth="199.0" stylesheets="@../css/customer.css" />
             <TextField id="text" fx:id="txtEmail" layoutX="365.0" layoutY="174.0" onAction="#txtEmailOnAction" prefHeight="24.0" prefWidth="199.0" stylesheets="@../css/customer.css" />
-            <Button id="btn" fx:id="btnDelete" layoutX="394.0" layoutY="252.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="33.0" prefWidth="72.0" stylesheets="@../css/customer.css" text="Delete">
+            <Button id="btn" fx:id="btnDelete" layoutX="394.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="33.0" prefWidth="72.0" stylesheets="@../css/customer.css" text="Delete">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
-            <Button id="btn" fx:id="btnUpdate" layoutX="483.0" layoutY="252.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="33.0" prefWidth="72.0" stylesheets="@../css/customer.css" text="Update" />
-            <Button id="btn" fx:id="btnSearch" layoutX="572.0" layoutY="252.0" mnemonicParsing="false" onAction="#btnSearchOnAction" prefHeight="33.0" prefWidth="72.0" stylesheets="@../css/customer.css" text="Search" />
+            <Button id="btn" fx:id="btnUpdate" layoutX="486.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="33.0" prefWidth="72.0" stylesheets="@../css/customer.css" text="Update" />
+            <Button id="btn" fx:id="btnSearch" layoutX="575.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnSearchOnAction" prefHeight="33.0" prefWidth="72.0" stylesheets="@../css/customer.css" text="Search" />
             <Text layoutX="364.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address :" />
-            <Button id="btn" fx:id="btnBack" layoutX="302.0" layoutY="305.0" mnemonicParsing="false" onAction="#btnBackOnAction" prefHeight="33.0" prefWidth="78.0" stylesheets="@../css/customer.css" text="Back" />
-            <Button id="btn" fx:id="btnSave" layoutX="302.0" layoutY="252.0" mnemonicParsing="false" onAction="#btnSavetOnAction" prefHeight="33.0" prefWidth="78.0" stylesheets="@../css/customer.css" text="Save">
+            <Button id="btn" fx:id="btnSave" layoutX="292.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnSavetOnAction" prefHeight="33.0" prefWidth="78.0" stylesheets="@../css/customer.css" text="Save">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
-            <Button id="btn" fx:id="btnExit" layoutX="394.0" layoutY="305.0" mnemonicParsing="false" onAction="#btnExitOnAction" prefHeight="33.0" prefWidth="78.0" stylesheets="@../css/customer.css" text="Exit" />
             <TextField id="text" fx:id="txtPay" layoutX="-47.0" layoutY="310.0" prefHeight="24.0" prefWidth="214.0" stylesheets="@../css/customer.css" />
             <Text layoutX="-47.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment :" />
+            <Text layoutX="366.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Id ;" />
+            <ComboBox fx:id="cmbUserId" layoutX="366.0" layoutY="248.0" onAction="#cmbUserIdOnAction" prefHeight="30.0" prefWidth="199.0" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="183.0" layoutY="366.0" prefHeight="283.0" prefWidth="673.0">
          <children>
-            <TableView id="tabel" fx:id="tblCustomer" layoutX="-167.0" layoutY="30.0" prefHeight="223.0" prefWidth="810.0" stylesheets="@../css/customer.css">
+            <TableView id="tabel" fx:id="tblCustomer" layoutX="-167.0" layoutY="66.0" prefHeight="223.0" prefWidth="810.0" stylesheets="@../css/customer.css">
               <columns>
-                <TableColumn fx:id="colId" prefWidth="121.0" text="ID" />
-                <TableColumn fx:id="colName" prefWidth="133.0" text="Name" />
-                  <TableColumn fx:id="colEmail" prefWidth="153.0" text="Email" />
-                  <TableColumn fx:id="colAddress" prefWidth="156.0" text="Address" />
-                  <TableColumn fx:id="colTel" prefWidth="136.0" text="Tel" />
-                  <TableColumn fx:id="colPay" prefWidth="107.0" text="Payment" />
+                <TableColumn fx:id="colId" prefWidth="98.0" text="ID" />
+                <TableColumn fx:id="colName" prefWidth="121.0" text="Name" />
+                  <TableColumn fx:id="colEmail" prefWidth="144.0" text="Email" />
+                  <TableColumn fx:id="colAddress" prefWidth="131.0" text="Address" />
+                  <TableColumn fx:id="colTel" prefWidth="121.0" text="Tel" />
+                  <TableColumn fx:id="colPay" prefWidth="101.0" text="Payment" />
+                  <TableColumn fx:id="colUserId" prefWidth="93.0" text="User Id" />
               </columns>
             </TableView>
+            <Button id="btn" fx:id="btnBack" layoutX="294.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnBackOnAction" prefHeight="33.0" prefWidth="78.0" stylesheets="@../css/customer.css" text="Back" />
+            <Button id="btn" fx:id="btnExit" layoutX="396.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnExitOnAction" prefHeight="33.0" prefWidth="78.0" stylesheets="@../css/customer.css" text="Exit" />
          </children>
       </AnchorPane>
    </children>
