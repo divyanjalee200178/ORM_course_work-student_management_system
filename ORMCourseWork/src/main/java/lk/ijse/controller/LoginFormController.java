@@ -96,7 +96,7 @@ private TextField txtRoll;
 
 
     public void btnRegisterOnAction(ActionEvent actionEvent) throws IOException {
-        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/register_form.fxml"));
+        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/regi.fxml"));
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
 
         Scene scene = new Scene(rootNode);
@@ -121,6 +121,7 @@ private TextField txtRoll;
     }
 
     public void txtPasswordOnAction(MouseEvent mouseEvent) {
+        txtRoll.requestFocus();
     }
     @FXML
     void txtRollOnAction(ActionEvent event) {

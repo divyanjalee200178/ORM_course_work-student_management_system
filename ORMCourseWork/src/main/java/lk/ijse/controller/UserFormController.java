@@ -11,12 +11,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
-import lk.ijse.bo.custom.StudentBO;
 import lk.ijse.bo.custom.UserBO;
-import lk.ijse.models.StudentDTO;
 import lk.ijse.models.UserDTO;
-import lk.ijse.view.tdm.StudentTm;
+import lk.ijse.util.Regex;
+import lk.ijse.util.TextFields;
 import lk.ijse.view.tdm.UserTm;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,73 +25,53 @@ public class UserFormController {
 
     @FXML
     private Button btnBack;
-
     @FXML
     private Button btnClear;
-
     @FXML
     private Button btnDelete;
-
     @FXML
     private Button btnExit;
-
     @FXML
     private Button btnSave;
-
     @FXML
     private Button btnSearch;
-
     @FXML
     private Button btnUpdate;
 
     @FXML
     private TableColumn<?, ?> colEmail;
-
     @FXML
     private TableColumn<?, ?> colId;
-
     @FXML
     private TableColumn<?, ?> colName;
-
     @FXML
     private TableColumn<?, ?> colPass;
-
     @FXML
     private TableColumn<?, ?> colRole;
-
     @FXML
     private TableColumn<?, ?> colTel;
 
     @FXML
     private AnchorPane rootNode;
-
     @FXML
     private TableView<UserTm> tblUser;
 
     @FXML
     private TextField txtPassword;
-
     @FXML
     private TextField txtRole;
-
-
     @FXML
     private TextField txtEmail;
-
     @FXML
     private TextField txtId;
-
     @FXML
     private TextField txtName;
-
     @FXML
     private TextField txtTel;
 
+    private UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
 
-
-    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
-
-    public void initialize(){
+    public void initialize() {
         setTable();
         setValueFactory();
         selectTableRow();
@@ -100,9 +80,8 @@ public class UserFormController {
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
-        AnchorPane anchorPane= FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
-        Stage stage=(Stage) rootNode.getScene().getWindow();
-
+        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
+        Stage stage = (Stage) rootNode.getScene().getWindow();
         stage.setScene(new Scene(anchorPane));
         stage.setTitle("Login Form");
         stage.centerOnScreen();
@@ -115,16 +94,17 @@ public class UserFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        boolean isDeleted = userBO.delete(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(), txtTel.getText(), txtEmail.getText(),txtPassword.getText()));
-        if (isDeleted){
+        boolean isDeleted = userBO.delete(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(),
+                txtTel.getText(), txtEmail.getText(), txtPassword.getText()));
+        if (isDeleted) {
             clearTextFields();
             setTable();
             setValueFactory();
             tblUser.refresh();
             txtId.setText(generateUserId());
-            new Alert(Alert.AlertType.CONFIRMATION,"User delete successfully").show();
+            new Alert(Alert.AlertType.CONFIRMATION, "User deleted successfully").show();
         } else {
-            new Alert(Alert.AlertType.ERROR,"User delete unsuccessfully").show();
+            new Alert(Alert.AlertType.ERROR, "User deletion unsuccessful").show();
         }
     }
 
@@ -137,7 +117,7 @@ public class UserFormController {
         colPass.setCellValueFactory(new PropertyValueFactory<>("password"));
     }
 
-    void clearTextFields(){
+    void clearTextFields() {
         txtId.clear();
         txtName.clear();
         txtRole.clear();
@@ -159,23 +139,28 @@ public class UserFormController {
                 txtId.setText("U001");
                 return "U001";
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
-
+    @FXML
+    void btnExitOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
+        Stage stage = (Stage) rootNode.getScene().getWindow();
+        stage.setScene(new Scene(anchorPane));
+        stage.setTitle("Login Form");
+        stage.centerOnScreen();
+    }
 
     private void setTable() {
         ObservableList<UserTm> userTms = FXCollections.observableArrayList();
         List<UserDTO> all = userBO.getAll();
-        for (UserDTO userDTO : all){
-            UserTm userTm = new UserTm(userDTO.getId(), userDTO.getName(), userDTO.getRole(), userDTO.getEmail(), userDTO.getTel(),userDTO.getPassword());
+        for (UserDTO userDTO : all) {
+            UserTm userTm = new UserTm(userDTO.getId(), userDTO.getName(), userDTO.getRole(), userDTO.getEmail(), userDTO.getTel(), userDTO.getPassword());
             userTms.add(userTm);
         }
-
         tblUser.setItems(userTms);
     }
 
@@ -189,25 +174,29 @@ public class UserFormController {
             txtTel.setText(String.valueOf(userTm.getTel()));
             txtEmail.setText(userTm.getEmail());
             txtPassword.setText(userTm.getPassword());
-
-
         });
     }
 
+    // Encrypt password using BCrypt before saving/updating
+    private String encryptPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-        String hashedPassword = Password.hashPassword(txtPassword.getText());
-        boolean isSaved = userBO.save(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(), txtTel.getText(), txtEmail.getText(),txtPassword.getText()));
-        if (isSaved){
+        // Encrypt the password before saving
+        String hashedPassword = encryptPassword(txtPassword.getText());
+        boolean isSaved = userBO.save(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(),
+                txtTel.getText(), txtEmail.getText(), hashedPassword));
+        if (isSaved) {
             clearTextFields();
             setTable();
             setValueFactory();
             tblUser.refresh();
             txtId.setText(generateUserId());
-            new Alert(Alert.AlertType.CONFIRMATION,"User save successfully").show();
+            new Alert(Alert.AlertType.CONFIRMATION, "User saved successfully").show();
         } else {
-            new Alert(Alert.AlertType.ERROR,"User save unsuccessfully").show();
+            new Alert(Alert.AlertType.ERROR, "User save unsuccessful").show();
         }
     }
 
@@ -218,41 +207,49 @@ public class UserFormController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        boolean isUpdated =userBO.update(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(), txtTel.getText(), txtEmail.getText(),txtPassword.getText()));
-        if (isUpdated){
+        // Encrypt the password before updating
+        String hashedPassword = encryptPassword(txtPassword.getText());
+        boolean isUpdated = userBO.update(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(),
+                txtTel.getText(), txtEmail.getText(), hashedPassword));
+        if (isUpdated) {
             clearTextFields();
             setTable();
             setValueFactory();
             tblUser.refresh();
             txtId.setText(generateUserId());
-            new Alert(Alert.AlertType.CONFIRMATION,"User update successfully").show();
+            new Alert(Alert.AlertType.CONFIRMATION, "User updated successfully").show();
         } else {
-            new Alert(Alert.AlertType.ERROR,"User update unsuccessfully").show();
+            new Alert(Alert.AlertType.ERROR, "User update unsuccessful").show();
         }
     }
 
     @FXML
     void txtRoleOnAction(ActionEvent event) {
-
+        txtEmail.requestFocus();
     }
+
     @FXML
     void txtEmailOnAction(ActionEvent event) {
-
+        Regex.setTextColor(TextFields.EMAIL,txtEmail);
+        txtTel.requestFocus();
     }
 
     @FXML
     void txtIdOnAction(ActionEvent event) {
-
+        Regex.setTextColor(TextFields.UserID,txtId);
+        txtName.requestFocus();
     }
 
     @FXML
     void txtNameOnAction(ActionEvent event) {
-
+        Regex.setTextColor(TextFields.UserName,txtName);
+        txtRole.requestFocus();
     }
 
     @FXML
     void txtTelOnAction(ActionEvent event) {
-
+        Regex.setTextColor(TextFields.Contact,txtTel);
+        txtPassword.requestFocus();
     }
 
 }

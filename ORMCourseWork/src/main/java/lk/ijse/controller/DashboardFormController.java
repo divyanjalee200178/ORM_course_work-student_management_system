@@ -101,12 +101,19 @@ public class DashboardFormController {
 
     @FXML
     void btnRegiOnAction(ActionEvent event) throws IOException {
-        AnchorPane anchorPane=FXMLLoader.load(getClass().getResource("/view/registerForm.fxml"));
-        Stage stage=(Stage) rootNode.getScene().getWindow();
-
-        stage.setScene(new Scene(anchorPane));
-        stage.setTitle("Login Form");
-        stage.centerOnScreen();
+//        AnchorPane anchorPane=FXMLLoader.load(getClass().getResource("/view/registerForm.fxml"));
+//        Stage stage=(Stage) rootNode.getScene().getWindow();
+//
+//        stage.setScene(new Scene(anchorPane));
+//        stage.setTitle("Login Form");
+//        stage.centerOnScreen();
+        try {
+            AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/registerForm.fxml"));
+            miniDash.getChildren().clear();
+            miniDash.getChildren().add(rootNode);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML

@@ -16,7 +16,7 @@ public class Launcher extends Application {
 //        stage.setTitle("Login Form");
 //        stage.centerOnScreen();
 //        stage.show();
-        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
         Scene scene = new Scene(anchorPane);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
         stage.setScene(scene);

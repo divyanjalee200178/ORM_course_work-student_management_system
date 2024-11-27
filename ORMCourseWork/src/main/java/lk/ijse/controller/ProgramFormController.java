@@ -13,6 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.ProgrammeBO;
 import lk.ijse.models.ProgramDTO;
+import lk.ijse.util.Regex;
+import lk.ijse.util.TextFields;
 import lk.ijse.view.tdm.ProgramTm;
 
 import java.util.List;
@@ -169,7 +171,8 @@ public class ProgramFormController {
 
     @FXML
     void txtIdOnAction(ActionEvent event) {
-
+        Regex.setTextColor(TextFields.ProgramID,txtId);
+        txtProgramme.requestFocus();
     }
 
     @FXML
@@ -179,6 +182,8 @@ public class ProgramFormController {
 
     @FXML
     void txtPriceOnAction(ActionEvent event) {
+        Regex.setTextColor(TextFields.DOUBLE,txtPrice);
+        txtDuration.requestFocus();
 
     }
 

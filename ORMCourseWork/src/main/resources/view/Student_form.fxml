@@ -46,12 +46,11 @@
          <children>
             <TableView id="tabel" fx:id="tblCustomer" layoutX="-167.0" layoutY="66.0" prefHeight="223.0" prefWidth="810.0" stylesheets="@../css/customer.css">
               <columns>
-                <TableColumn fx:id="colId" prefWidth="96.0" text="ID" />
-                <TableColumn fx:id="colName" prefWidth="150.0" text="Name" />
-                  <TableColumn fx:id="colEmail" prefWidth="167.0" text="Email" />
-                  <TableColumn fx:id="colAddress" prefWidth="152.0" text="Address" />
-                  <TableColumn fx:id="colTel" prefWidth="138.0" text="Tel" />
-                  <TableColumn fx:id="colUserId" prefWidth="106.0" text="User Id" />
+                <TableColumn fx:id="colId" prefWidth="121.0" text="ID" />
+                <TableColumn fx:id="colName" prefWidth="164.0" text="Name" />
+                  <TableColumn fx:id="colEmail" prefWidth="174.0" text="Email" />
+                  <TableColumn fx:id="colAddress" prefWidth="179.0" text="Address" />
+                  <TableColumn fx:id="colTel" prefWidth="170.0" text="Tel" />
               </columns>
             </TableView>
             <Button id="btn" fx:id="btnBack" layoutX="294.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnBackOnAction" prefHeight="33.0" prefWidth="78.0" stylesheets="@../css/customer.css" text="Back" />

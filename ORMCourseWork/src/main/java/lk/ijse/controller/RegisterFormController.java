@@ -4,86 +4,108 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
 import lk.ijse.models.UserDTO;
+import lk.ijse.util.Regex;
+import lk.ijse.util.TextFields;
 import lk.ijse.view.tdm.UserTm;
+
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.io.IOException;
 import java.util.List;
 
 public class RegisterFormController {
-
     @FXML
     private Button btnBack;
-
     @FXML
     private Button btnClear;
-
     @FXML
     private Button btnDelete;
-
+    @FXML
+    private Button btnExit;
     @FXML
     private Button btnSave;
-
     @FXML
     private Button btnSearch;
-
     @FXML
     private Button btnUpdate;
 
     @FXML
     private TableColumn<?, ?> colEmail;
-
     @FXML
     private TableColumn<?, ?> colId;
-
     @FXML
     private TableColumn<?, ?> colName;
-
     @FXML
     private TableColumn<?, ?> colPass;
-
     @FXML
     private TableColumn<?, ?> colRole;
-
     @FXML
     private TableColumn<?, ?> colTel;
 
     @FXML
     private AnchorPane rootNode;
-
     @FXML
     private TableView<UserTm> tblUser;
 
     @FXML
-    private TextField txtEmail;
-
-    @FXML
-    private TextField txtId;
-
-    @FXML
-    private TextField txtName;
-
-    @FXML
     private TextField txtPassword;
-
     @FXML
     private TextField txtRole;
-
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private TextField txtId;
+    @FXML
+    private TextField txtName;
     @FXML
     private TextField txtTel;
 
-    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
+    private UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
 
     public void initialize() {
         setTable();
         setValueFactory();
         selectTableRow();
         generateUserId();
+    }
+
+    @FXML
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
+        Stage stage = (Stage) rootNode.getScene().getWindow();
+        stage.setScene(new Scene(anchorPane));
+        stage.setTitle("Login Form");
+        stage.centerOnScreen();
+    }
+
+    @FXML
+    void btnClearOnAction(ActionEvent event) {
+        clearTextFields();
+    }
+
+    @FXML
+    void btnDeleteOnAction(ActionEvent event) {
+        boolean isDeleted = userBO.delete(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(),
+                txtTel.getText(), txtEmail.getText(), txtPassword.getText()));
+        if (isDeleted) {
+            clearTextFields();
+            setTable();
+            setValueFactory();
+            tblUser.refresh();
+            txtId.setText(generateUserId());
+            new Alert(Alert.AlertType.CONFIRMATION, "User deleted successfully").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "User deletion unsuccessful").show();
+        }
     }
 
     private void setValueFactory() {
@@ -120,16 +142,23 @@ public class RegisterFormController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
+    }
+
+    @FXML
+    void btnExitOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
+        Stage stage = (Stage) rootNode.getScene().getWindow();
+        stage.setScene(new Scene(anchorPane));
+        stage.setTitle("Login Form");
+        stage.centerOnScreen();
     }
 
     private void setTable() {
         ObservableList<UserTm> userTms = FXCollections.observableArrayList();
         List<UserDTO> all = userBO.getAll();
         for (UserDTO userDTO : all) {
-            UserTm userTm = new UserTm(userDTO.getId(), userDTO.getName(), userDTO.getRole(),
-                    userDTO.getEmail(), userDTO.getTel(), userDTO.getPassword());
+            UserTm userTm = new UserTm(userDTO.getId(), userDTO.getName(), userDTO.getRole(), userDTO.getEmail(), userDTO.getTel(), userDTO.getPassword());
             userTms.add(userTm);
         }
         tblUser.setItems(userTms);
@@ -142,45 +171,27 @@ public class RegisterFormController {
             txtId.setText(userTm.getId());
             txtName.setText(userTm.getName());
             txtRole.setText(userTm.getRole());
-            txtTel.setText(userTm.getTel());
+            txtTel.setText(String.valueOf(userTm.getTel()));
             txtEmail.setText(userTm.getEmail());
             txtPassword.setText(userTm.getPassword());
         });
     }
 
-    @FXML
-    void btnBackOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnClearOnAction(ActionEvent event) {
-        clearTextFields();
-    }
-
-    @FXML
-    void btnDeleteOnAction(ActionEvent event) {
-        boolean isDeleted = userBO.delete(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(),
-                txtTel.getText(), txtEmail.getText(), txtPassword.getText()));
-        if (isDeleted) {
-            clearTextFields();
-            setTable();
-            tblUser.refresh();
-            txtId.setText(generateUserId());
-            new Alert(Alert.AlertType.CONFIRMATION, "User deleted successfully").show();
-        } else {
-            new Alert(Alert.AlertType.ERROR, "User delete unsuccessful").show();
-        }
+    // Encrypt password using BCrypt before saving/updating
+    private String encryptPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-        String encryptedPassword = BCrypt.hashpw(txtPassword.getText(), BCrypt.gensalt());
+        // Encrypt the password before saving
+        String hashedPassword = encryptPassword(txtPassword.getText());
         boolean isSaved = userBO.save(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(),
-                txtTel.getText(), txtEmail.getText(), encryptedPassword));
+                txtTel.getText(), txtEmail.getText(), hashedPassword));
         if (isSaved) {
             clearTextFields();
             setTable();
+            setValueFactory();
             tblUser.refresh();
             txtId.setText(generateUserId());
             new Alert(Alert.AlertType.CONFIRMATION, "User saved successfully").show();
@@ -191,17 +202,19 @@ public class RegisterFormController {
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
-
+        // Implement search functionality if required
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        String encryptedPassword = BCrypt.hashpw(txtPassword.getText(), BCrypt.gensalt());
+        // Encrypt the password before updating
+        String hashedPassword = encryptPassword(txtPassword.getText());
         boolean isUpdated = userBO.update(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(),
-                txtTel.getText(), txtEmail.getText(), encryptedPassword));
+                txtTel.getText(), txtEmail.getText(), hashedPassword));
         if (isUpdated) {
             clearTextFields();
             setTable();
+            setValueFactory();
             tblUser.refresh();
             txtId.setText(generateUserId());
             new Alert(Alert.AlertType.CONFIRMATION, "User updated successfully").show();
@@ -211,36 +224,40 @@ public class RegisterFormController {
     }
 
     @FXML
-    void txtEmailOnAction(ActionEvent event) {
+    void txtRoleOnAction(ActionEvent event) {
+        txtEmail.requestFocus();
+    }
 
+    @FXML
+    void txtEmailOnAction(ActionEvent event) {
+        Regex.setTextColor(TextFields.EMAIL,txtEmail);
+        txtTel.requestFocus();
     }
 
     @FXML
     void txtIdOnAction(ActionEvent event) {
-
+        txtName.requestFocus();
     }
 
     @FXML
     void txtNameOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void txtRoleOnAction(ActionEvent event) {
-
+        Regex.setTextColor(TextFields.UserName,txtName);
+        txtRole.requestFocus();
     }
 
     @FXML
     void txtTelOnAction(ActionEvent event) {
-
+        Regex.setTextColor(TextFields.Contact,txtTel);
+        txtPassword.requestFocus();
     }
 
+
     public void txtUserIdOnAction(ActionEvent actionEvent) {
+        Regex.setTextColor(TextFields.UserID,txtId);
+
     }
 
     public void txtPasswordOnAction(ActionEvent actionEvent) {
-    }
-
-    public void btnExitOnAction(ActionEvent actionEvent) {
+        txtName.requestFocus();
     }
 }
