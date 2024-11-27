@@ -6,27 +6,27 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lk.ijse.entity.Program;
 import lk.ijse.entity.Student;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
 
 public class PaymentTm {
 
     private String id;
-    private String studentId;
-    private String programmeId;
+//    private String studentId;
+//    private String programmeId;
+    private String register_id;
     private double fee;
     private double registerFee;
     private double totalFee;
 
 
 
-    public PaymentTm(String id, String studentId, String programmeId, double fee, double registerFee, double totalFee) {
+    public PaymentTm(String id, double fee, double registerFee, double totalFee) {
         this.id = id;
-        this.studentId = studentId;
-        this.programmeId = programmeId;
         this.fee = fee;
         this.registerFee = registerFee;
         this.totalFee = totalFee;
@@ -36,8 +36,6 @@ public class PaymentTm {
     public String toString() {
         return "Payment{" +
                 "id='" + id + '\'' +
-                ", studentId='" + studentId + '\'' +
-                ", programmeId='" + programmeId + '\'' +
                 ", fee=" + fee +
                 ", registerFee=" + registerFee +
                 ", totalFee=" + totalFee +

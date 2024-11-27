@@ -17,15 +17,19 @@ import java.util.List;
 public class StudentDAOImpl implements StudentDAO {
 
     @Override
-    public boolean save(Student object) {
+    public boolean save(Student student) {
+
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        session.save(object);
-        transaction.commit();
-        session.close();
-        return true;
-    }
+        Object isSaved = session.save(student);
 
+        if(isSaved != null){
+            transaction.commit();
+            session.close();
+            return true;
+        }
+        return false;
+    }
     @Override
     public boolean update(Student object) {
         Session session = FactoryConfiguration.getInstance().getSession();
@@ -74,6 +78,8 @@ public class StudentDAOImpl implements StudentDAO {
         return list;
     }
 
+
+
     @Override
     public String getCurrentId() {
         Session session = FactoryConfiguration.getInstance().getSession();
@@ -84,6 +90,8 @@ public class StudentDAOImpl implements StudentDAO {
         session.close();
         return id;
     }
+
+
 
     @Override
     public Student getObject(String value) {
@@ -96,6 +104,7 @@ public class StudentDAOImpl implements StudentDAO {
         session.close();
         return student;
     }
+
 
     public Student getStudentById(String studentId) {
         Session session = FactoryConfiguration.getInstance().getSession();
@@ -113,4 +122,18 @@ public class StudentDAOImpl implements StudentDAO {
 
         return student;
     }
+
+    @Override
+    public Student search(String id) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        Query query = session.createQuery("from Student where id =?1");
+        query.setParameter(1, id);
+        Student student = (Student) query.uniqueResult();
+        transaction.commit();
+        return student;
+    }
+
+
 }

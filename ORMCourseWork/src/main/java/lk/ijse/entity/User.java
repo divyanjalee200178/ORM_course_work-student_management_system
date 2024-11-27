@@ -1,6 +1,7 @@
 package lk.ijse.entity;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -16,20 +17,24 @@ import java.util.List;
 @Entity
 public class User {
     @Id
-    private String id;
+    private String userId;
     private String name;
     private String role;
     private String tel;
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<Student> students;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Student> studentList;
+
+    public User(String userId) {
+        this.userId=userId;
+    }
 
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "id='" + userId + '\'' +
                 ", name='" + name + '\'' +
                 ", role='" + role + '\'' +
                 ", tel='" + tel + '\'' +
@@ -40,8 +45,8 @@ public class User {
 
 
 
-    public User(String id, String name, String role, String tel, String email, String password) {
-        this.id = id;
+    public User(String userId, String name, String role, String tel, String email, String password) {
+        this.userId = userId;
         this.name = name;
         this.role = role;
         this.tel = tel;

@@ -20,6 +20,13 @@ public class UserBOImpl implements UserBO {
         return userDAO.save(new User(userDTO.getId(),userDTO.getName(),userDTO.getRole(),userDTO.getTel(),userDTO.getEmail(),userDTO.getPassword()));
     }
 
+    @Override
+    public UserDTO searchByID(String userID) {
+        User user = userDAO.search(userID);
+        return new UserDTO(user.getUserId(),user.getRole(),user.getName(),user.getPassword(),user.getEmail(),user.getTel());
+    }
+
+
 
     @Override
     public boolean update(UserDTO userDTO) {
@@ -33,7 +40,7 @@ public class UserBOImpl implements UserBO {
     @Override
     public UserDTO get(String value) {
         User object = userDAO.getObject(value);
-        return new UserDTO(object.getId(),object.getName(),object.getRole(),object.getTel(),object.getEmail(),object.getPassword());
+        return new UserDTO(object.getUserId(),object.getName(),object.getRole(),object.getTel(),object.getEmail(),object.getPassword());
     }
 
     @Override
@@ -41,7 +48,7 @@ public class UserBOImpl implements UserBO {
         List<UserDTO> userDTOS = new ArrayList<>();
         List<User> all = userDAO.getAll();
         for (User user : all){
-            userDTOS.add(new UserDTO(user.getId(),user.getName(),user.getRole(),user.getTel(),user.getEmail(),user.getPassword()));
+            userDTOS.add(new UserDTO(user.getUserId(),user.getName(),user.getRole(),user.getTel(),user.getEmail(),user.getPassword()));
         }
         return userDTOS;
     }
@@ -60,7 +67,7 @@ public class UserBOImpl implements UserBO {
         User user = userDAO.getUsersIdPasswordAndRole(userId, password, roll);
 
         if (user != null) {
-            return new UserDTO(user.getId(), user.getName(), user.getRole(), user.getTel(), user.getEmail(), user.getPassword());
+            return new UserDTO(user.getUserId(), user.getName(), user.getRole(), user.getTel(), user.getEmail(), user.getPassword());
         }
         return null;
     }

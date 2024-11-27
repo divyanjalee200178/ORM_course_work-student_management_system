@@ -1,6 +1,7 @@
 package lk.ijse.bo.custom;
 
 import lk.ijse.bo.SuperBO;
+import lk.ijse.entity.Program;
 import lk.ijse.models.ProgramDTO;
 
 
@@ -17,4 +18,10 @@ public interface ProgrammeBO extends SuperBO {
     List<ProgramDTO> getAll();
 
     String getCurrentId();
+
+
+    Program getProgramByName(String programName);
+    Program getProgramById(String programId) throws Exception;
+    public ProgramDTO searchById(String programId);
+    public List<ProgramDTO> getAllPrograms();
 }

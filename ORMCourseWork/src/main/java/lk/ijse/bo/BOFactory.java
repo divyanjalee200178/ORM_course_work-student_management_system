@@ -12,7 +12,7 @@ public class BOFactory {
 
     }
     public enum BOTypes{
-        STUDENT,PROGRAMME,USER,PAYMENT
+        STUDENT,PROGRAMME,USER,PAYMENT,STUDENTPROGRAME
     }
     public SuperBO getBO(BOTypes types){
         switch (types){
@@ -24,6 +24,8 @@ public class BOFactory {
                 return  new UserBOImpl();
             case PAYMENT:
                 return  new PaymentBOIml();
+            case STUDENTPROGRAME:
+                return  new StudentProgrammeBOIml();
             default:
                 return null;
         }

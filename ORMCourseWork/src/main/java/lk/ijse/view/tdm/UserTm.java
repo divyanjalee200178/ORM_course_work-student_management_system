@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 
 public class UserTm {
-    private String id;
+    private String userId;
     private String name;
     private String role;
     private  String tel;
@@ -19,7 +19,7 @@ public class UserTm {
     @Override
     public String toString() {
         return "UserTm{" +
-                "id='" + id + '\'' +
+                "id='" + userId + '\'' +
                 ", name='" + name + '\'' +
                 ", role='" + role + '\'' +
                 ", tel='" + tel + '\'' +
@@ -29,11 +29,11 @@ public class UserTm {
     }
 
     public String getId() {
-        return id;
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -76,8 +76,8 @@ public class UserTm {
         this.password = password;
     }
 
-    public UserTm(String id, String name, String role, String tel, String email, String password) {
-        this.id = id;
+    public UserTm(String userId, String name, String role, String tel, String email, String password) {
+        this.userId = userId;
         this.name = name;
         this.role = role;
         this.tel = tel;

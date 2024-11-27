@@ -13,7 +13,7 @@
    <children>
       <AnchorPane id="ancho1" layoutX="183.0" layoutY="13.0" prefHeight="372.0" prefWidth="661.0" stylesheets="@../css/customer.css">
          <children>
-            <Text layoutX="244.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Form">
+            <Text layoutX="244.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Form">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
@@ -39,28 +39,25 @@
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
-            <TextField id="text" fx:id="txtPay" layoutX="-47.0" layoutY="310.0" prefHeight="24.0" prefWidth="214.0" stylesheets="@../css/customer.css" />
-            <Text layoutX="-47.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment :" />
-            <Text layoutX="366.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Id ;" />
-            <ComboBox fx:id="cmbUserId" layoutX="366.0" layoutY="248.0" onAction="#cmbUserIdOnAction" prefHeight="30.0" prefWidth="199.0" />
+            <ComboBox fx:id="cmbUserId" layoutX="-47.0" layoutY="326.0" onAction="#cmbUserIdOnAction" prefHeight="30.0" prefWidth="214.0" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="183.0" layoutY="366.0" prefHeight="283.0" prefWidth="673.0">
          <children>
             <TableView id="tabel" fx:id="tblCustomer" layoutX="-167.0" layoutY="66.0" prefHeight="223.0" prefWidth="810.0" stylesheets="@../css/customer.css">
               <columns>
-                <TableColumn fx:id="colId" prefWidth="98.0" text="ID" />
-                <TableColumn fx:id="colName" prefWidth="121.0" text="Name" />
-                  <TableColumn fx:id="colEmail" prefWidth="144.0" text="Email" />
-                  <TableColumn fx:id="colAddress" prefWidth="131.0" text="Address" />
-                  <TableColumn fx:id="colTel" prefWidth="121.0" text="Tel" />
-                  <TableColumn fx:id="colPay" prefWidth="101.0" text="Payment" />
-                  <TableColumn fx:id="colUserId" prefWidth="93.0" text="User Id" />
+                <TableColumn fx:id="colId" prefWidth="96.0" text="ID" />
+                <TableColumn fx:id="colName" prefWidth="150.0" text="Name" />
+                  <TableColumn fx:id="colEmail" prefWidth="167.0" text="Email" />
+                  <TableColumn fx:id="colAddress" prefWidth="152.0" text="Address" />
+                  <TableColumn fx:id="colTel" prefWidth="138.0" text="Tel" />
+                  <TableColumn fx:id="colUserId" prefWidth="106.0" text="User Id" />
               </columns>
             </TableView>
             <Button id="btn" fx:id="btnBack" layoutX="294.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnBackOnAction" prefHeight="33.0" prefWidth="78.0" stylesheets="@../css/customer.css" text="Back" />
             <Button id="btn" fx:id="btnExit" layoutX="396.0" layoutY="7.0" mnemonicParsing="false" onAction="#btnExitOnAction" prefHeight="33.0" prefWidth="78.0" stylesheets="@../css/customer.css" text="Exit" />
          </children>
       </AnchorPane>
+      <Text layoutX="134.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Id :" />
    </children>
 </AnchorPane>

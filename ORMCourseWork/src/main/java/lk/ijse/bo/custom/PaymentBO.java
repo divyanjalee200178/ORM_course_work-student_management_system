@@ -7,8 +7,10 @@ import lk.ijse.models.StudentDTO;
 import java.util.List;
 
 public interface PaymentBO extends SuperBO {
-    boolean save(PaymentDTO paymentDTO);
+  boolean saves(PaymentDTO paymentDTO);
     //public boolean exsistCustomer(String id) throws SQLException, ClassNotFoundException ;
+
+  boolean save(PaymentDTO paymentDTO);
 
     public boolean update(PaymentDTO paymentDTO);
     public boolean delete(PaymentDTO object);
@@ -19,4 +21,5 @@ public interface PaymentBO extends SuperBO {
     List<String> getIds();
 
     String getCurrentId();
+
 }

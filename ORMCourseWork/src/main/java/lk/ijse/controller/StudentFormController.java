@@ -13,8 +13,11 @@ import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.StudentBO;
 import lk.ijse.bo.custom.UserBO;
+import lk.ijse.entity.User;
 import lk.ijse.models.StudentDTO;
 import lk.ijse.models.UserDTO;
+import lk.ijse.util.Regex;
+import lk.ijse.util.TextFields;
 import lk.ijse.view.tdm.StudentTm;
 
 import java.io.IOException;
@@ -44,8 +47,6 @@ public class StudentFormController {
     private Button btnExit;
 
     @FXML
-    private ComboBox<String> cmbUserId;
-    @FXML
     private TableColumn<?, ?> colAddress;
 
     @FXML
@@ -61,14 +62,12 @@ public class StudentFormController {
     private TableColumn<?, ?> colTel;
 
     @FXML
-    private TableColumn<?, ?> colPay;
-
-    @FXML
     private TableColumn<?, ?> colUserId;
-
     @FXML
     private AnchorPane rootNode;
 
+    @FXML
+    private ComboBox<String> cmbUserId;
     @FXML
     private TableView<StudentTm> tblCustomer;
 
@@ -99,8 +98,10 @@ public class StudentFormController {
         setTable();
         setValueFactory();
         selectTableRow();
+        addTableSelectionListener();
         generateCustomerId();
         loadUserIds();
+
     }
 
 
@@ -112,8 +113,7 @@ public class StudentFormController {
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colTel.setCellValueFactory(new PropertyValueFactory<>("tel"));
-        colPay.setCellValueFactory(new PropertyValueFactory<>("payment"));
-        colUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+
     }
 
     void clearTextFields(){
@@ -122,7 +122,7 @@ public class StudentFormController {
         txtAddress.clear();
         txtEmail.clear();
         txtTel.clear();
-        txtPay.clear();
+
 //        cmbUserId.clear();
     }
 
@@ -151,7 +151,7 @@ public class StudentFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        boolean isDeleted = studentBO.delete(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), txtTel.getText(), txtEmail.getText(),Double.parseDouble(txtPay.getText()), (String) cmbUserId.getValue()));
+        boolean isDeleted = studentBO.delete(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), txtTel.getText(), txtEmail.getText()));
         if (isDeleted){
             clearTextFields();
             setTable();
@@ -164,10 +164,7 @@ public class StudentFormController {
         }
     }
 
-    @FXML
-    void btnEnterOnAction(ActionEvent event) {
 
-    }
 
     @FXML
     void btnExitOnAction(ActionEvent event) throws IOException {
@@ -181,17 +178,87 @@ public class StudentFormController {
 
     @FXML
     void btnSavetOnAction(ActionEvent event) {
-        boolean isSaved = studentBO.save(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), txtEmail.getText(), txtTel.getText(), Double.parseDouble(txtPay.getText()), (String) cmbUserId.getValue()));
-        if (isSaved) {
-            clearTextFields();
-            setTable();
-            setValueFactory();
-            tblCustomer.refresh();
-            txtId.setText(generateCustomerId());
-            new Alert(Alert.AlertType.CONFIRMATION, "Student save successfully").show();
-        } else {
-            new Alert(Alert.AlertType.ERROR, "Student save unsuccessfully").show();
+        String studentID = txtId.getText();
+        String name = txtName.getText();
+        String address = txtAddress.getText();
+        String email = txtEmail.getText();
+        String contact = txtTel.getText();
+        String userId = cmbUserId.getValue();
+
+        UserDTO userDTO = userBO.searchByID(userId);
+
+        User user = new User();
+
+        user.setUserId(userId);
+        user.setRole(userDTO.getRole());
+        user.setName(userDTO.getName());
+        user.setPassword(userDTO.getPassword());
+        user.setEmail(userDTO.getEmail());
+        user.setTel(userDTO.getTel());
+
+
+
+        try {
+
+            boolean isSaved = studentBO.saveStudent(new StudentDTO(studentID, user, name, address, email, contact));
+
+                if (isSaved) {
+                    new Alert(Alert.AlertType.CONFIRMATION, "Student saved!").show();
+                    loadAllStudents();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Student not saved!").show();
+                }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+        }
+
+    private void addTableSelectionListener() {
+        tblCustomer.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                getStudentDetails(newValue);
+            }
+        });
+    }
+
+
+    private void getStudentDetails(StudentTm studentTm) {
+        txtId.setText(studentTm.getId());
+        txtName.setText(studentTm.getName());
+        txtAddress.setText(studentTm.getAddress());
+        txtEmail.setText(studentTm.getEmail());
+        txtTel.setText(studentTm.getTel());
+        cmbUserId.setValue(String.valueOf(studentTm.getUser_id())); // Assuming cmbUser holds user IDs
+    }
+
+
+
+    private void loadAllStudents(){
+        ObservableList<StudentTm> obList = FXCollections.observableArrayList();
+
+        try {
+            List<StudentDTO> studentList = studentBO.getAllStudents();
+            for(StudentDTO studentDTO : studentList){
+
+                StudentTm studentTm = new StudentTm(
+                        studentDTO.getId(),
+                        studentDTO.getName(),
+                        studentDTO.getAddress(),
+                        studentDTO.getEmail(),
+                        studentDTO.getTel()
+                );
+
+                obList.add(studentTm);
+            }
+            System.out.println("done1");
+            tblCustomer.setItems(obList);
+
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Error loading students: " + e.getMessage()).show();
+        }
+
     }
 
 
@@ -226,9 +293,7 @@ public class StudentFormController {
                     studentDTO.getName(),
                     studentDTO.getAddress(),
                     studentDTO.getEmail(),
-                    studentDTO.getTel(),
-                    studentDTO.getPayment(),
-                    studentDTO.getUserId()
+                    studentDTO.getTel()
             );
             studentTms.add(studentTm);
         }
@@ -245,8 +310,6 @@ public class StudentFormController {
             txtAddress.setText(studentTm.getAddress());
             txtTel.setText(String.valueOf(studentTm.getTel()));
             txtEmail.setText(studentTm.getEmail());
-            txtPay.setText(String.valueOf(studentTm.getPayment()));
-            cmbUserId.getSelectionModel().select(Integer.parseInt(studentTm.getUserId()));
         });
     }
     @FXML
@@ -256,7 +319,7 @@ public class StudentFormController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        boolean isUpdated = studentBO.update(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), (txtTel.getText()), txtEmail.getText(),Double.parseDouble(txtPay.getText()), (String) cmbUserId.getValue()));
+        boolean isUpdated = studentBO.update(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(), (txtTel.getText()), txtEmail.getText()));
         if (isUpdated){
             clearTextFields();
             setTable();
@@ -279,27 +342,32 @@ public class StudentFormController {
 
     @FXML
     void txtEmailOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void txtIdOnAction(ActionEvent event) {
-        txtName.requestFocus();
-    }
-
-    @FXML
-    void txtNameOnAction(ActionEvent event) {
-        txtTel.requestFocus();
-    }
-
-    @FXML
-    void txtTelOnAction(ActionEvent event) {
-        txtAddress.requestFocus();
+        Regex.setTextColor(TextFields.EMAIL,txtEmail);
     }
 
     @FXML
     void cmbUserIdOnAction(ActionEvent event) {
 
     }
+
+    @FXML
+    void txtIdOnAction(ActionEvent event) {
+        Regex.setTextColor(TextFields.StudentID,txtId);
+        txtName.requestFocus();
+    }
+
+    @FXML
+    void txtNameOnAction(ActionEvent event) {
+        Regex.setTextColor(TextFields.Name,txtName);
+        txtTel.requestFocus();
+    }
+
+    @FXML
+    void txtTelOnAction(ActionEvent event) {
+        Regex.setTextColor(TextFields.Contact,txtTel);
+        txtAddress.requestFocus();
+
+    }
+
 
 }

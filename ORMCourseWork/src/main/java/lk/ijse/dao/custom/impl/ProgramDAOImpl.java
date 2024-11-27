@@ -3,6 +3,7 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.config.FactoryConfiguration;
 import lk.ijse.dao.custom.ProgramDAO;
 import lk.ijse.entity.Program;
+import lk.ijse.entity.Register;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -36,6 +37,8 @@ public class ProgramDAOImpl implements ProgramDAO {
         return true;
     }
 
+
+
     @Override
     public boolean delete(Program value) {
         Session session = FactoryConfiguration.getInstance().getSession();
@@ -60,6 +63,18 @@ public class ProgramDAOImpl implements ProgramDAO {
         transaction.commit();
         session.close();
         return resultList;
+    }
+
+    @Override
+    public Program search(String id) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        Query query = session.createQuery("from Program where code =?1");
+        query.setParameter(1, id);
+        Program program = (Program) query.uniqueResult();
+        transaction.commit();
+        return program;
     }
 
     @Override
@@ -110,4 +125,31 @@ public class ProgramDAOImpl implements ProgramDAO {
 
         return program;
     }
+
+    @Override
+    public List<Program> findAll() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("FROM Program", Program.class);
+        List<Program> programs = query.getResultList();
+        transaction.commit();
+        session.close();
+        return programs;
+    }
+
+    @Override
+    public Program getProgramByName(String programName) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("from Program where name = :programName");
+        query.setParameter("programName", programName);
+
+        Program program = (Program) query.uniqueResult();
+
+        transaction.commit();
+        session.close();
+
+        return program;
+    }
+
 }

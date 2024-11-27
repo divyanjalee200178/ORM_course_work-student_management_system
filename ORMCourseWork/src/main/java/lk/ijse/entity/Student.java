@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,33 +18,41 @@ public class Student {
     private String address;
     private String email;
     private String tel;
-    private double payment;
-    private String userId;
 
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "studentProgramme",
-            joinColumns = @JoinColumn(name = "s_id"),
-            inverseJoinColumns = @JoinColumn(name = "p_code")
-    )
-    private Set<Program> programs = new HashSet<>();
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    List<Register> registerList;
 
-    @OneToMany(mappedBy = "student")
-    private Set<Payment> payments = new HashSet<>();
 
-    public Student(String id, String name, String address, String email, String tel, double payment,String userId) {
+    public Student(String id, String name, String address, String email, String tel, User user) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.email = email;
         this.tel = tel;
-        this.payment = payment;
-        this.userId=userId;
+        this.user = user;
+    }
 
+    public Student(String id,String name, String address, String email, String tel) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.tel = tel;
+
+    }
+
+
+    public Student(String id, User user, String name, String address, String tel, String email) {
+        this.id = id;
+        this.user=user;
+        this.name=name;
+        this.address = address;
+        this.tel=tel;
+        this.email=email;
     }
 }

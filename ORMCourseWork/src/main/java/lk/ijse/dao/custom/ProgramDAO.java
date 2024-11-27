@@ -13,4 +13,8 @@ public interface ProgramDAO extends CrudDAO<Program> {
 
     Program getObject(String value);
     boolean update(Session session, Program object);
+    List<Program> findAll();
+    Program getProgramByName(String programName);
+
+
 }

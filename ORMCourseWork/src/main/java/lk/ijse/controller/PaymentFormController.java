@@ -12,7 +12,9 @@ import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.PaymentBO;
 import lk.ijse.bo.custom.StudentBO;
 import lk.ijse.bo.custom.ProgrammeBO;
+import lk.ijse.bo.custom.StudentProgrameBO;
 import lk.ijse.models.PaymentDTO;
+import lk.ijse.models.RegisterDTO;
 import lk.ijse.models.StudentDTO;
 import lk.ijse.models.ProgramDTO;
 import lk.ijse.view.tdm.PaymentTm;
@@ -36,6 +38,9 @@ public class PaymentFormController {
     private ComboBox<String> cmbStId;  // ComboBox for Student IDs
 
     @FXML
+    private ComboBox<String> cmbRegiId;
+
+    @FXML
     private TableColumn<?, ?> colFullPay;
 
     @FXML
@@ -52,9 +57,6 @@ public class PaymentFormController {
 
     @FXML
     private TableColumn<?, ?> colStuId;
-
-    @FXML
-    private Label lblAmount;
 
     @FXML
     private Label lblFullPay;
@@ -77,9 +79,14 @@ public class PaymentFormController {
     @FXML
     private TableView<PaymentTm> tblPayment;
 
+    @FXML
+    private TextField txtPaid;
+
     PaymentBO paymentBO = (PaymentBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PAYMENT);
     StudentBO studentBO = (StudentBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.STUDENT);
     ProgrammeBO programmeBO = (ProgrammeBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PROGRAMME);
+
+    StudentProgrameBO studentProgrameBO = (StudentProgrameBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.STUDENTPROGRAME);
 
     public void initialize() {
         setTable();
@@ -92,6 +99,7 @@ public class PaymentFormController {
 
         cmbStId.setOnAction(event -> fillStudentDetails());
         cmbProId.setOnAction(event -> fillProgrammeDetails());
+
     }
 
     private void loadComboBoxes() {
@@ -110,6 +118,14 @@ public class PaymentFormController {
                 programmeIds.add(programme.getCode());
             }
             cmbProId.setItems(programmeIds);
+
+
+            List<RegisterDTO> registerList = studentProgrameBO.getAll();
+            ObservableList<String> registerIds = FXCollections.observableArrayList();
+            for (RegisterDTO register : registerList) {
+                registerIds.add(register.getRegister_id());
+            }
+            cmbRegiId.setItems(registerIds);
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Error loading ComboBoxes").show();
@@ -118,8 +134,6 @@ public class PaymentFormController {
 
     private void setValueFactory() {
         colPayId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colProgramId.setCellValueFactory(new PropertyValueFactory<>("studentId"));
-        colStuId.setCellValueFactory(new PropertyValueFactory<>("ProgrammeId"));
         colFullPay.setCellValueFactory(new PropertyValueFactory<>("fee"));
         colPaid.setCellValueFactory(new PropertyValueFactory<>("registerFee"));
         colLast.setCellValueFactory(new PropertyValueFactory<>("totalFee"));
@@ -151,8 +165,6 @@ public class PaymentFormController {
         for (PaymentDTO paymentDTO : all) {
             PaymentTm paymentTm = new PaymentTm(
                     paymentDTO.getId(),
-                    paymentDTO.getStudentId(),
-                    paymentDTO.getProgrammeId(),
                     paymentDTO.getFee(),
                     paymentDTO.getRegisterFee(),
                     paymentDTO.getTotalFee()
@@ -163,24 +175,30 @@ public class PaymentFormController {
         tblPayment.setItems(paymentTms);
     }
 
+
     @FXML
     void btnSaveOnAction(ActionEvent event) {
         calculateFullPayment();
+
         String studentId = cmbStId.getValue();
         String programmeId = cmbProId.getValue();
+
+        String paymetId = txtPaymentId.getText();
+        double fee = Double.valueOf(lblPayment.getText());
+        double total= Double.parseDouble(lblFullPay.getText());
+        double regi= Double.parseDouble(txtPaid.getText());
+        String registerId = cmbRegiId.getValue();
+
+
         if (studentId == null || programmeId == null) {
             new Alert(Alert.AlertType.ERROR, "Please select both Student and Programme").show();
             return;
         }
 
-        boolean isSaved = paymentBO.save(new PaymentDTO(
-                txtPaymentId.getText(),
-                studentId,
-                programmeId,
-                Double.parseDouble(lblPayment.getText()),
-                Double.parseDouble(lblAmount.getText()),
-                Double.parseDouble(lblFullPay.getText())
-        ));
+        RegisterDTO register = new RegisterDTO(registerId);
+        System.out.println(register);
+
+        boolean isSaved = paymentBO.save(new PaymentDTO(paymetId,fee,total,regi,register));
 
         if (isSaved) {
             txtPaymentId.setText(generatePaymentId());
@@ -204,9 +222,7 @@ public class PaymentFormController {
 
         boolean isDeleted = paymentBO.delete(new PaymentDTO(
                 txtPaymentId.getText(),
-                studentId,
-                programmeId,
-                Double.parseDouble(lblAmount.getText()),
+                Double.parseDouble(txtPaid.getText()),
                 Double.parseDouble(lblPayment.getText()),
                 Double.parseDouble(lblFullPay.getText())
         ));
@@ -222,6 +238,16 @@ public class PaymentFormController {
         }
     }
 
+
+
+//    private double tryParseDouble(String value) {
+//        try {
+//            return Double.parseDouble(value);  // Try parsing as Double
+//        } catch (NumberFormatException e) {
+//            return -1;  // Return -1 if the parsing fails
+//        }
+//    }
+
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
 
@@ -236,7 +262,7 @@ public class PaymentFormController {
                     StudentDTO student = studentBO.get(selectedStudentId);
                     if (student != null) {
                         lblStName.setText(student.getName());
-                        lblAmount.setText(String.valueOf(student.getPayment()));
+//                        lblAmount.setText(String.valueOf(student.getPayment()));
                     } else {
                         lblStName.setText("Student not found");
                     }
@@ -270,7 +296,10 @@ public class PaymentFormController {
         }
     }
 
+    @FXML
+    void cmbRegiIdOnAction(ActionEvent event) {
 
+    }
 
     public void cmbProIdOnAction(ActionEvent actionEvent) {
     }
@@ -278,7 +307,10 @@ public class PaymentFormController {
     public void cmbStIdOnAction(ActionEvent actionEvent) {
     }
 
+    @FXML
+    void txtPaidOnAction(ActionEvent event) {
 
+    }
 
     public void lblPaymentOnAction(MouseEvent mouseEvent) {
     }
@@ -301,7 +333,7 @@ public class PaymentFormController {
         try {
 
             String paymentText = lblPayment.getText().trim();
-            String amountText = lblAmount.getText().trim();
+            String amountText = txtPaid.getText().trim();
 
 
             if (paymentText.isEmpty() || amountText.isEmpty()) {
@@ -346,10 +378,8 @@ public class PaymentFormController {
             int focusedIndex = tblPayment.getFocusModel().getFocusedIndex();
             PaymentTm paymentTm = tblPayment.getItems().get(focusedIndex);
             txtPaymentId.setText(paymentTm.getId());
-            cmbStId.setValue(paymentTm.getStudentId());
-            cmbProId.setValue(paymentTm.getProgrammeId());
             lblPayment.setText(String.valueOf(paymentTm.getFee()));
-            lblAmount.setText(String.valueOf(paymentTm.getRegisterFee()));
+            txtPaid.setText(String.valueOf(paymentTm.getRegisterFee()));
             lblFullPay.setText(String.valueOf(paymentTm.getTotalFee()));
 
 

@@ -31,6 +31,9 @@ public class DashboardFormController {
     private Button btnRegister;
 
     @FXML
+    private Button btnRegi;
+
+    @FXML
     private Button btnStudent;
 
     @FXML
@@ -122,6 +125,17 @@ public class DashboardFormController {
     void btnUserOnAction(ActionEvent event) throws IOException {
         try {
             AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/user_form.fxml"));
+            miniDash.getChildren().clear();
+            miniDash.getChildren().add(rootNode);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void btnRegisterOnAction(ActionEvent event) {
+        try {
+            AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/registrationform.fxml"));
             miniDash.getChildren().clear();
             miniDash.getChildren().add(rootNode);
         } catch (IOException e) {

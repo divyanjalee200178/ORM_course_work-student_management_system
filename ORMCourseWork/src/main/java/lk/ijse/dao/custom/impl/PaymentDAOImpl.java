@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import javafx.scene.control.Alert;
 import lk.ijse.config.FactoryConfiguration;
 import lk.ijse.dao.custom.PaymentDAO;
 import lk.ijse.entity.Payment;
@@ -13,6 +14,31 @@ import java.util.List;
 
 public class PaymentDAOImpl implements PaymentDAO {
     @Override
+    public boolean savePay(Payment object) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(object);
+        transaction.commit();
+        session.close();
+        return true;
+    }
+//    @Override
+//    public boolean save(Payment entity) {
+//        Session session = FactoryConfiguration.getInstance().getSession();
+//        Transaction transaction = session.beginTransaction();
+//        Object payment = session.save(entity);
+//        System.out.println(payment);
+//
+//        if (payment != null) {
+//            transaction.commit();
+//            session.close();
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
+
+    @Override
     public boolean save(Payment object) {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
@@ -21,7 +47,6 @@ public class PaymentDAOImpl implements PaymentDAO {
         session.close();
         return true;
     }
-
     @Override
     public boolean update(Payment object) {
         Session session = FactoryConfiguration.getInstance().getSession();
@@ -59,6 +84,11 @@ public class PaymentDAOImpl implements PaymentDAO {
         return resultList;
     }
 
+    @Override
+    public Payment search(String id) {
+        return null;
+    }
+
     public List<String> getIds() {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
@@ -92,6 +122,18 @@ public class PaymentDAOImpl implements PaymentDAO {
         return payment;
     }
 
+
+
+    @Override
+    public boolean savedPayment(Payment entity, Session session) {
+        try {
+            session.save(entity);
+            return true;
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            return false;
+        }
+    }
     public Payment getStudentById(String paymentId) {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();

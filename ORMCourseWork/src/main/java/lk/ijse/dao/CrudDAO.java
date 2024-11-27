@@ -10,4 +10,6 @@ public interface CrudDAO<T> extends SuperDAO {
     public boolean delete(T object);
     public T get(T object);
     List<T> getAll();
+
+    public  T search(String id);
 }

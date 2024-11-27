@@ -65,6 +65,18 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public User search(String userID) {
+
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        Query query = session.createQuery("from User where userId =?1");
+        query.setParameter(1, userID);
+        User user = (User) query.uniqueResult();
+        transaction.commit();
+        return user;
+    }
+    @Override
     public List<String> getIds() {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
@@ -79,7 +91,7 @@ public class UserDAOImpl implements UserDAO {
     public String getCurrentId() {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("select id from User order by id desc limit 1");
+        Query query = session.createQuery("select id from User order by userId desc limit 1");
         String id = (String) query.uniqueResult();
         transaction.commit();
         session.close();
@@ -90,7 +102,7 @@ public class UserDAOImpl implements UserDAO {
     public User getObject(String value) {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from User where id = ?1");
+        Query query = session.createQuery("from User where userId = ?1");
         query.setParameter(1,value);
         User user = (User) query.uniqueResult();
         transaction.commit();
@@ -102,7 +114,7 @@ public class UserDAOImpl implements UserDAO {
         public User getUsersIdPasswordAndRole(String userId, String password, String role) throws SQLException {
             Session session = FactoryConfiguration.getInstance().getSession();
             Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery("from User where id = :userId and password = :password and role = :role");
+            Query query = session.createQuery("from User where userId = :userId and password = :password and role = :role");
             query.setParameter("userId", userId);
             query.setParameter("password", password);
             query.setParameter("role", role);

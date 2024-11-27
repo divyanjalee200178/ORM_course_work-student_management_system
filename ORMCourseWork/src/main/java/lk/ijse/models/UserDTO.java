@@ -2,17 +2,19 @@ package lk.ijse.models;
 
 
 public class UserDTO {
-    private String id;
+    private String userId;
     private String name;
     private String role;
     private  String tel;
     private String email;
     private String password;
 
+
+
     @Override
     public String toString() {
         return "UserDTO{" +
-                "id='" + id + '\'' +
+                "id='" + userId + '\'' +
                 ", name='" + name + '\'' +
                 ", role='" + role + '\'' +
                 ", tel='" + tel + '\'' +
@@ -22,11 +24,11 @@ public class UserDTO {
     }
 
     public String getId() {
-        return id;
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -69,8 +71,8 @@ public class UserDTO {
         this.password = password;
     }
 
-    public UserDTO(String id, String name, String role, String tel, String email, String password) {
-        this.id = id;
+    public UserDTO(String userId, String name, String role, String tel, String email, String password) {
+        this.userId = userId;
         this.name = name;
         this.role = role;
         this.tel = tel;
@@ -78,6 +80,5 @@ public class UserDTO {
         this.password = password;
     }
 
-    public UserDTO() {
-    }
+
 }

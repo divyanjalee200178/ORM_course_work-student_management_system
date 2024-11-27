@@ -1,6 +1,7 @@
 package lk.ijse.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.models.RegisterDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,35 +11,38 @@ import lombok.NoArgsConstructor;
 public class Payment {
     @Id
     private String id;
-    private String studentId;
-    private String programmeId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "register_id")
+    private Register register;
     private double fee;
     private double registerFee;
     private double totalFee;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Student student;
 
-    @ManyToOne
-    @JoinColumn(name = "programme_code", referencedColumnName = "code", insertable = false, updatable = false)
-    private Program programs;
-
-    public Payment(String id, String studentId, String programmeId, double fee, double registerFee, double totalFee) {
+    public Payment(String id,double fee, double registerFee, double totalFee) {
         this.id = id;
-        this.studentId = studentId;
-        this.programmeId = programmeId;
         this.fee = fee;
         this.registerFee = registerFee;
         this.totalFee = totalFee;
+    }
+
+    public Payment(Register register) {
+        this.register = register;
+    }
+
+    public Payment(String id, double fee, double registerFee, double totalFee, Register register) {
+        this.id=id;
+        this.fee = fee;
+        this.registerFee = registerFee;
+        this.totalFee =totalFee;
+        this.register =register;
     }
 
     @Override
     public String toString() {
         return "Payment{" +
                 "id='" + id + '\'' +
-                ", studentId='" + studentId + '\'' +
-                ", programmeId='" + programmeId + '\'' +
                 ", fee=" + fee +
                 ", registerFee=" + registerFee +
                 ", totalFee=" + totalFee +

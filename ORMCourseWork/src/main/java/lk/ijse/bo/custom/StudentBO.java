@@ -20,8 +20,14 @@ public interface StudentBO extends SuperBO {
 
     List<StudentDTO> getAll();
 
+    public StudentDTO searchById(String studentId);
+    public boolean saveStudent(StudentDTO studentDTO);
+
     List<String> getIds();
 
+    public List<StudentDTO> getAllStudents();
+
     String getCurrentId();
+    Student getStudentById(String studentId) throws Exception;
    
 }

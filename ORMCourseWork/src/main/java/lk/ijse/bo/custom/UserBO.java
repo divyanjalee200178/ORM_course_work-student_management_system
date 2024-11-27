@@ -18,6 +18,7 @@ public interface UserBO extends SuperBO {
     List<UserDTO> getAll();
 
     List<String> getIds();
+    public UserDTO searchByID(String userID);
 
     String getCurrentId();
     UserDTO getUsersIdAndPasswordAndRole(String userId, String password, String roll) throws SQLException;
