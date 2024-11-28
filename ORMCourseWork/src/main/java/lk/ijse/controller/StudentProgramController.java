@@ -167,21 +167,21 @@ public class StudentProgramController {
     public void loadAllRegistrations() {
         ObservableList<RegisterTm> obList = FXCollections.observableArrayList();
         try {
-            List<RegisterDTO> registerList = studentProgrameBO.getAll(); // Fetch all registrations
-            if (registerList != null) { // Check if the list itself is not null
+            List<RegisterDTO> registerList = studentProgrameBO.getAll();
+            if (registerList != null) {
                 for (RegisterDTO registerDTO : registerList) {
-                    if (registerDTO != null) { // Check if individual DTO is not null
+                    if (registerDTO != null) {
                         RegisterTm registerTm = new RegisterTm(
-                                registerDTO.getRegister_id() != null ? registerDTO.getRegister_id() : "N/A", // Default for null ID
-                                registerDTO.getDate() != null ? registerDTO.getDate() : "N/A", // Default for null date
+                                registerDTO.getRegister_id() != null ? registerDTO.getRegister_id() : "N/A",
+                                registerDTO.getDate() != null ? registerDTO.getDate() : "N/A",
                                 (registerDTO.getStudent() != null && registerDTO.getStudent().getId() != null)
-                                        ? registerDTO.getStudent().getId() : "N/A", // Default for student ID
+                                        ? registerDTO.getStudent().getId() : "N/A",
                                 (registerDTO.getProgram() != null && registerDTO.getProgram().getCode() != null)
-                                        ? registerDTO.getProgram().getCode() : "N/A", // Default for program code
-                                registerDTO.getStudentName() != null ? registerDTO.getStudentName() : "Unknown Student", // Default for student name
-                                registerDTO.getProgramName() != null ? registerDTO.getProgramName() : "Unknown Program", // Default for program name
-                                registerDTO.getProgramFee() != 0 ? registerDTO.getProgramFee() : 0.0, // Default for program fee
-                                registerDTO.getRegiFee() != 0 ? registerDTO.getRegiFee() : 0.0 // Default for registration fee
+                                        ? registerDTO.getProgram().getCode() : "N/A",
+                                registerDTO.getStudentName() != null ? registerDTO.getStudentName() : "Unknown Student",
+                                registerDTO.getProgramName() != null ? registerDTO.getProgramName() : "Unknown Program",
+                                registerDTO.getProgramFee() != 0 ? registerDTO.getProgramFee() : 0.0,
+                                registerDTO.getRegiFee() != 0 ? registerDTO.getRegiFee() : 0.0
                         );
                         obList.add(registerTm);
                     }
@@ -189,7 +189,7 @@ public class StudentProgramController {
             }
         } catch (Exception e) {
             System.err.println("Error loading registrations: " + e.getMessage());
-            // Optionally, display an error dialog to the user
+
         }
         tblRegisters.setItems(obList); // Populate the TableView
     }
