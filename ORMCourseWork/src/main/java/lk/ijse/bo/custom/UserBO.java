@@ -22,7 +22,7 @@ public interface UserBO extends SuperBO {
     public UserDTO searchByID(String userID);
 
     String getCurrentId();
-    UserDTO getUsersIdAndPasswordAndRole(String userId, String password, String roll) throws SQLException;
+    UserDTO getUsersIdAndPasswordAndRole(String userId, String roll) throws SQLException;
 
     User getUserById(String userId) throws SQLException;
     boolean checkCredentials(String userId, String password) throws SQLException;

@@ -13,5 +13,5 @@ public interface UserDAO extends CrudDAO<User> {
     List<String> getIds();
     String getCurrentId();
     User getObject(String value);
-    User getUsersIdPasswordAndRole(String userId, String password, String roll) throws SQLException;
+    User getUsersIdPasswordAndRole(String userId, String roll) throws SQLException;
 }

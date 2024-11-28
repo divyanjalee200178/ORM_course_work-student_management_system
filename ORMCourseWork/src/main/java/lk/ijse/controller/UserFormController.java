@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
 import lk.ijse.models.UserDTO;
+import lk.ijse.util.PasswordUtil;
 import lk.ijse.util.Regex;
 import lk.ijse.util.TextFields;
 import lk.ijse.view.tdm.UserTm;
@@ -184,8 +185,7 @@ public class UserFormController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-        // Encrypt the password before saving
-        String hashedPassword = encryptPassword(txtPassword.getText());
+        String hashedPassword = PasswordUtil.hashPassword(txtPassword.getText());
         boolean isSaved = userBO.save(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(),
                 txtTel.getText(), txtEmail.getText(), hashedPassword));
         if (isSaved) {
@@ -242,7 +242,7 @@ public class UserFormController {
 
     @FXML
     void txtNameOnAction(ActionEvent event) {
-        Regex.setTextColor(TextFields.UserName,txtName);
+//        Regex.setTextColor(TextFields.UserName,txtName);
         txtRole.requestFocus();
     }
 

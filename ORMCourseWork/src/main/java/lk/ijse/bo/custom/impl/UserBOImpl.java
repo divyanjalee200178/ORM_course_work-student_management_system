@@ -88,8 +88,8 @@ public class UserBOImpl implements UserBO {
     }
 
     @Override
-    public UserDTO getUsersIdAndPasswordAndRole(String userId, String password, String roll) throws SQLException {
-        User user = userDAO.getUsersIdPasswordAndRole(userId, password, roll);
+    public UserDTO getUsersIdAndPasswordAndRole(String userId, String roll) throws SQLException {
+        User user = userDAO.getUsersIdPasswordAndRole(userId, roll);
 
         if (user != null) {
             return new UserDTO(user.getUserId(), user.getName(), user.getRole(), user.getTel(), user.getEmail(), user.getPassword());

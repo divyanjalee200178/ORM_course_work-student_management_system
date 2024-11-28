@@ -156,12 +156,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
         @Override
-        public User getUsersIdPasswordAndRole(String userId, String password, String role) throws SQLException {
+        public User getUsersIdPasswordAndRole(String userId,String role) throws SQLException {
             Session session = FactoryConfiguration.getInstance().getSession();
             Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery("from User where userId = :userId and password = :password and role = :role");
+            Query query = session.createQuery("from User where userId = :userId  and role = :role");
             query.setParameter("userId", userId);
-            query.setParameter("password", password);
+//            query.setParameter("password", password);
             query.setParameter("role", role);
             User user = (User) query.uniqueResult();
             transaction.commit();

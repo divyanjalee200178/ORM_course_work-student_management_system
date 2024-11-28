@@ -76,7 +76,8 @@ private TextField txtRoll;
 
             if (isAuthenticated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Login successful").show();
-                navigateToTheDashboard();
+                checkCredential(userID,password,role);
+//                navigateToTheDashboard();
 
             } else {
                 new Alert(Alert.AlertType.ERROR, "Invalid userID or password").show();
@@ -89,7 +90,7 @@ private TextField txtRoll;
 
         private void checkCredential(String userId, String password, String roll) throws SQLException, IOException, ClassNotFoundException {
         UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
-        UserDTO user = userBO.getUsersIdAndPasswordAndRole(userId, password, roll);
+        UserDTO user = userBO.getUsersIdAndPasswordAndRole(userId,roll);
         if (user != null) {
             if (user.getRole().toLowerCase().equals("cordinator")||user.getRole().toLowerCase().equals("Cordinator")) {
                 navigateToTheDashboard();
