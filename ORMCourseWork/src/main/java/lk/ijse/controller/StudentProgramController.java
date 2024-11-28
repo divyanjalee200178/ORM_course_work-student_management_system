@@ -118,41 +118,103 @@ public class StudentProgramController {
 
 
 
-    private void loadAllRegistrations(){
 
+
+//    public void loadAllRegistrations() {
+//        ObservableList<RegisterTm> obList = FXCollections.observableArrayList();
+//        List<RegisterDTO> registerList = studentProgrameBO.getAll(); // Fetch all registrations
+//
+//        // Map RegisterDTO to RegisterTm for TableView
+//        for (RegisterDTO registerDTO : registerList) {
+//            RegisterTm registerTm = new RegisterTm(
+//                    registerDTO.getRegister_id(),
+//                    registerDTO.getDate(),
+//                    registerDTO.getStudent(),
+//                    registerDTO.getProgram(),
+//                    registerDTO.getStudentName(),
+//                    registerDTO.getProgramName(),
+//                    registerDTO.getProgramFee(),
+//                    registerDTO.getRegiFee()
+//            );
+//            obList.add(registerTm);
+//        }
+//
+//        // Populate the TableView
+//        tblRegisters.setItems(obList);
+//    }
+
+//    public void loadAllRegistrations() {
+//        ObservableList<RegisterTm> obList = FXCollections.observableArrayList();
+//        List<RegisterDTO> registerList = studentProgrameBO.getAll(); // Fetch all registrations
+//
+//        for (RegisterDTO registerDTO : registerList) {
+//            RegisterTm registerTm = new RegisterTm(
+//                    registerDTO.getRegister_id(),
+//                    registerDTO.getDate(),
+//                    registerDTO.getStudent().getId(),  // Get student ID
+//                    registerDTO.getProgram().getCode(), // Get program code
+//                    registerDTO.getStudentName(),
+//                    registerDTO.getProgramName(),
+//                    registerDTO.getProgramFee(),
+//                    registerDTO.getRegiFee()
+//            );
+//            obList.add(registerTm);
+//        }
+//
+//        tblRegisters.setItems(obList); // Populate the TableView
+//    }
+
+    public void loadAllRegistrations() {
         ObservableList<RegisterTm> obList = FXCollections.observableArrayList();
-        List<RegisterDTO> registerList = studentProgrameBO.getAllRegistrations();
-
-        for (RegisterDTO registrationDTO : registerList) {
-
-            RegisterTm registrationTm = new RegisterTm(
-                    registrationDTO.getRegister_id(),
-                    registrationDTO.getDate(),
-                    registrationDTO.getStudent().getId(),
-                    registrationDTO.getProgram().getCode(),
-                    registrationDTO.getStudentName(),
-                    registrationDTO.getProgramName(),
-                    registrationDTO.getProgramFee(),
-                    registrationDTO.getRegiFee()
-            );
-            obList.add(registrationTm);
+        try {
+            List<RegisterDTO> registerList = studentProgrameBO.getAll(); // Fetch all registrations
+            if (registerList != null) { // Check if the list itself is not null
+                for (RegisterDTO registerDTO : registerList) {
+                    if (registerDTO != null) { // Check if individual DTO is not null
+                        RegisterTm registerTm = new RegisterTm(
+                                registerDTO.getRegister_id() != null ? registerDTO.getRegister_id() : "N/A", // Default for null ID
+                                registerDTO.getDate() != null ? registerDTO.getDate() : "N/A", // Default for null date
+                                (registerDTO.getStudent() != null && registerDTO.getStudent().getId() != null)
+                                        ? registerDTO.getStudent().getId() : "N/A", // Default for student ID
+                                (registerDTO.getProgram() != null && registerDTO.getProgram().getCode() != null)
+                                        ? registerDTO.getProgram().getCode() : "N/A", // Default for program code
+                                registerDTO.getStudentName() != null ? registerDTO.getStudentName() : "Unknown Student", // Default for student name
+                                registerDTO.getProgramName() != null ? registerDTO.getProgramName() : "Unknown Program", // Default for program name
+                                registerDTO.getProgramFee() != 0 ? registerDTO.getProgramFee() : 0.0, // Default for program fee
+                                registerDTO.getRegiFee() != 0 ? registerDTO.getRegiFee() : 0.0 // Default for registration fee
+                        );
+                        obList.add(registerTm);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading registrations: " + e.getMessage());
+            // Optionally, display an error dialog to the user
         }
-        tblRegisters.setItems(obList);
-
-
+        tblRegisters.setItems(obList); // Populate the TableView
     }
 
-    private void setCellValueFactory(){
-        colReId.setCellValueFactory(new PropertyValueFactory<>("register_id"));
-        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        colStId.setCellValueFactory(new PropertyValueFactory<>("student_id"));
-        colPrId.setCellValueFactory(new PropertyValueFactory<>("program_id"));
-        colStName.setCellValueFactory(new PropertyValueFactory<>("studentName"));
-        colPrName.setCellValueFactory(new PropertyValueFactory<>("programName"));
-        colPrFee.setCellValueFactory(new PropertyValueFactory<>("programFee"));
-        colReFee.setCellValueFactory(new PropertyValueFactory<>("regiFee"));
-        System.out.println("done");
-    }
+    //    private void setCellValueFactory(){
+//        colReId.setCellValueFactory(new PropertyValueFactory<>("register_id"));
+//        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+//        colStId.setCellValueFactory(new PropertyValueFactory<>("student_id"));
+//        colPrId.setCellValueFactory(new PropertyValueFactory<>("program_id"));
+//        colStName.setCellValueFactory(new PropertyValueFactory<>("studentName"));
+//        colPrName.setCellValueFactory(new PropertyValueFactory<>("programName"));
+//        colPrFee.setCellValueFactory(new PropertyValueFactory<>("programFee"));
+//        colReFee.setCellValueFactory(new PropertyValueFactory<>("regiFee"));
+//        System.out.println("done");
+//    }
+private void setCellValueFactory() {
+    colReId.setCellValueFactory(new PropertyValueFactory<>("registerId"));
+    colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+    colStId.setCellValueFactory(new PropertyValueFactory<>("studentId")); // Uses studentId field
+    colPrId.setCellValueFactory(new PropertyValueFactory<>("programId")); // Uses programId field
+    colStName.setCellValueFactory(new PropertyValueFactory<>("studentName"));
+    colPrName.setCellValueFactory(new PropertyValueFactory<>("programName"));
+    colPrFee.setCellValueFactory(new PropertyValueFactory<>("programFee"));
+    colReFee.setCellValueFactory(new PropertyValueFactory<>("regiFee"));
+}
 
     private void addTableSelectionListener() {
         tblRegisters.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -162,10 +224,10 @@ public class StudentProgramController {
         });
     }
     private void getRegisterDetails(RegisterTm registrationTm) {
-        txtId.setText(registrationTm.getRegister_id());
+        txtId.setText(registrationTm.getRegisterId());
         txtDate.setText(registrationTm.getDate());
-        cmbstId.setValue(registrationTm.getStudent_id());
-        cmbPrId.setValue(registrationTm.getProgram_id());
+        cmbstId.setValue(String.valueOf(registrationTm.getStudentId()));
+        cmbPrId.setValue(String.valueOf(registrationTm.getProgramId()));
         txtStName.setText(registrationTm.getStudentName());
         txtPrName.setText(registrationTm.getProgramName());
         txtPrFee.setText(String.valueOf(registrationTm.getProgramFee()));

@@ -43,4 +43,6 @@ public class RegisterDTO {
         this.programFee=programFee;
         this.regiFee=regiFee;
     }
+
+
 }

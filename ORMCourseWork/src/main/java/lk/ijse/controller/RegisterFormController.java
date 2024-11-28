@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.UserBO;
 import lk.ijse.models.UserDTO;
+import lk.ijse.util.PasswordUtil;
 import lk.ijse.util.Regex;
 import lk.ijse.util.TextFields;
 import lk.ijse.view.tdm.UserTm;
@@ -184,8 +185,9 @@ public class RegisterFormController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
-        // Encrypt the password before saving
-        String hashedPassword = encryptPassword(txtPassword.getText());
+
+        // Hash the password before saving
+        String hashedPassword = PasswordUtil.hashPassword(txtPassword.getText());
         boolean isSaved = userBO.save(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(),
                 txtTel.getText(), txtEmail.getText(), hashedPassword));
         if (isSaved) {
@@ -198,6 +200,20 @@ public class RegisterFormController {
         } else {
             new Alert(Alert.AlertType.ERROR, "User save unsuccessful").show();
         }
+//        // Encrypt the password before saving
+//        String hashedPassword = encryptPassword(txtPassword.getText());
+//        boolean isSaved = userBO.save(new UserDTO(txtId.getText(), txtName.getText(), txtRole.getText(),
+//                txtTel.getText(), txtEmail.getText(), hashedPassword));
+//        if (isSaved) {
+//            clearTextFields();
+//            setTable();
+//            setValueFactory();
+//            tblUser.refresh();
+//            txtId.setText(generateUserId());
+//            new Alert(Alert.AlertType.CONFIRMATION, "User saved successfully").show();
+//        } else {
+//            new Alert(Alert.AlertType.ERROR, "User save unsuccessful").show();
+//        }
     }
 
     @FXML
@@ -223,6 +239,9 @@ public class RegisterFormController {
         }
     }
 
+
+
+
     @FXML
     void txtRoleOnAction(ActionEvent event) {
         txtEmail.requestFocus();
@@ -241,7 +260,7 @@ public class RegisterFormController {
 
     @FXML
     void txtNameOnAction(ActionEvent event) {
-        Regex.setTextColor(TextFields.UserName,txtName);
+
         txtRole.requestFocus();
     }
 

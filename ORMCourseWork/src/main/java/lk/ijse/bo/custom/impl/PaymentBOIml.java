@@ -57,7 +57,7 @@ public class PaymentBOIml implements PaymentBO {
         List<PaymentDTO> paymentDTOS = new ArrayList<>();
         List<Payment> all = paymentDAO.getAll();
         for (Payment payment : all){
-            //paymentDTOS.add(new PaymentDTO(payment.getId(),payment.getFee(),payment.getRegisterFee(),payment.getTotalFee()));
+            paymentDTOS.add(new PaymentDTO(payment.getId(),payment.getFee(),payment.getRegisterFee(),payment.getTotalFee()));
         }
         return paymentDTOS;
     }

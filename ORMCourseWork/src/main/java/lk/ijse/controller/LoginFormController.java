@@ -10,9 +10,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.PaymentBO;
 import lk.ijse.bo.custom.UserBO;
 import lk.ijse.entity.User;
 import lk.ijse.models.UserDTO;
+import lk.ijse.util.PasswordUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -38,21 +40,54 @@ private AnchorPane rootNode;
 private TextField txtRoll;
 
 
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
+
 
     @FXML
     void btnLoginOnAction(ActionEvent event) throws IOException, ClassNotFoundException {
-    String userID = txtUserID.getText();
-    String password = txtPassword.getText();
-    String roll=txtRoll.getText();
+//    String userID = txtUserID.getText();
+//    String password = txtPassword.getText();
+//    String roll=txtRoll.getText();
+//        // Get the stored hashed password from the database
+//        String storedHash = userBO.getPasswordHashByUserId(userID);
+//
+//        // Check if the entered password matches the stored hash
+//        if (PasswordUtil.checkPassword(password, storedHash)) {
+//            // Login successful
+//            new Alert(Alert.AlertType.CONFIRMATION, "Login successful").show();
+//            // Redirect to the main page, for example
+//        } else {
+//            // Login failed
+//            new Alert(Alert.AlertType.ERROR, "Invalid email or password").show();
+//        }
+//
+//    try {
+//        checkCredential(userID, password,roll);
+//    } catch (SQLException e) {
+//        new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+//    }
+//}
+        String userID = txtUserID.getText();
+        String password = txtPassword.getText();
+        String role = txtRoll.getText();
 
-    try {
-        checkCredential(userID, password,roll);
-    } catch (SQLException e) {
-        new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        try {
+            boolean isAuthenticated = userBO.checkCredentials(userID, password);
+
+            if (isAuthenticated) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Login successful").show();
+                navigateToTheDashboard();
+
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Invalid userID or password").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+
     }
-}
 
-    private void checkCredential(String userId, String password, String roll) throws SQLException, IOException, ClassNotFoundException {
+        private void checkCredential(String userId, String password, String roll) throws SQLException, IOException, ClassNotFoundException {
         UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
         UserDTO user = userBO.getUsersIdAndPasswordAndRole(userId, password, roll);
         if (user != null) {

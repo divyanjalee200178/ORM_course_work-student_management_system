@@ -8,13 +8,38 @@ import lk.ijse.entity.Student;
 import lk.ijse.entity.User;
 import lk.ijse.models.StudentDTO;
 import lk.ijse.models.UserDTO;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserBOImpl implements UserBO {
-   UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.USER);
+   private UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.USER);
+
+    public UserBOImpl(){
+
+    }
+    public UserBOImpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    @Override
+    public User getUserById(String userId) throws SQLException {
+        return userDAO.getUserById(userId);
+    }
+
+    @Override
+    public boolean checkCredentials(String userId, String password) throws SQLException {
+        // Get the stored password hash from the database
+        String storedHash = userDAO.getPasswordHashByUserId(userId);
+        if (storedHash == null) {
+            return false; // User not found
+        }
+
+        // Check if the entered password matches the stored hash
+        return BCrypt.checkpw(password, storedHash);
+    }
 
     public boolean save(UserDTO userDTO) {
         return userDAO.save(new User(userDTO.getId(),userDTO.getName(),userDTO.getRole(),userDTO.getTel(),userDTO.getEmail(),userDTO.getPassword()));
@@ -71,5 +96,7 @@ public class UserBOImpl implements UserBO {
         }
         return null;
     }
+
+
 
 }

@@ -1,0 +1,52 @@
+#anchopane{
+    -fx-background-color: rgba(4, 9, 27, 0.8);
+    -fx-background-radius: 10;
+    -fx-border-style: groove;
+    -fx-border-color: rgba(199, 74, 230, 0.8);
+    -fx-border-radius: 10;
+}
+
+#ancho{
+    -fx-background-image: url(../icon/log.jpg);
+    -fx-text-fill: white;
+}
+
+#inner{
+    -fx-background-color: rgba(33, 33, 33, 0.8);
+    -fx-background-radius: 10;
+    -fx-border-style: groove;
+    -fx-border-color: rgba(199, 74, 230, 0.8);
+    -fx-border-radius: 10;
+}
+#log{
+    -fx-background-color: rgba(253, 253, 255, 0.2);
+    -fx-background-radius: 10;
+    -fx-border-style: groove;
+    -fx-border-color: white;
+    -fx-border-radius: 10;
+}
+
+#text{
+    -fx-font-family: "serif";
+    -fx-text-fill: white;
+    -fx-background-color: rgba(74, 121, 230, 0.4);
+    -fx-font-size: 15px;
+    -fx-border-color: black;
+    -fx-border-style: groove;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+#btn {
+    -fx-font-family: "serif";
+    -fx-text-fill: black;
+    -fx-background-color: rgba(199, 74, 230, 0.6) ;
+    -fx-font-size: 15px;
+    -fx-border-color: black;
+    -fx-border-style: groove;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+#btn:hover{
+    -fx-background-color: red;
+}

@@ -17,8 +17,13 @@ public class Program {
     private double price;
     private int duration;
 
-    @OneToMany(mappedBy = "program",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "program",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Register> registerList;
+
+
+    public Program(String code) {
+        this.code =code;
+    }
 
     public Program(String code, String name, double price, int duration) {
         this.code = code;
@@ -26,4 +31,5 @@ public class Program {
         this.price = price;
         this.duration = duration;
     }
+
 }

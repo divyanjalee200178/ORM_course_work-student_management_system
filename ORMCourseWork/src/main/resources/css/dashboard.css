@@ -1,8 +1,11 @@
 #ancho{
     -fx-background-color: #7cb9e8;
+
 }
 #minancho{
-    -fx-background-color: #e7feff;
+
+    -fx-background-color: rgba(157, 170, 216, 0.6);
+    -fx-border-radius: 10;
 }
 #btn{
     -fx-background-color:#ffddca ;

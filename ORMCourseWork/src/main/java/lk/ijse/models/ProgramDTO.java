@@ -16,4 +16,8 @@ public class ProgramDTO {
     private String name;
     private double price;
     private int duration;
+
+    public ProgramDTO(String code) {
+        this.code =code;
+    }
 }

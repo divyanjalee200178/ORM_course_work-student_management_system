@@ -33,9 +33,9 @@
       <ComboBox fx:id="cmbstId" layoutX="60.0" layoutY="178.0" onAction="#cmbStIdOnAction" prefHeight="25.0" prefWidth="197.0" />
       <TableView fx:id="tblRegisters" layoutX="33.0" layoutY="407.0" prefHeight="200.0" prefWidth="789.0">
         <columns>
-          <TableColumn fx:id="colReId" prefWidth="82.0" text="Register Id" />
-          <TableColumn fx:id="colPrId" prefWidth="83.0" text="Program Id" />
-            <TableColumn fx:id="colPrName" prefWidth="110.0" text="Program Name" />
+          <TableColumn fx:id="colReId" prefWidth="64.0" text="Register Id" />
+          <TableColumn fx:id="colPrId" prefWidth="150.0" text="Program Id" />
+            <TableColumn fx:id="colPrName" prefWidth="61.0" text="Program Name" />
             <TableColumn fx:id="colStId" prefWidth="107.0" text="Student Id" />
             <TableColumn fx:id="colStName" prefWidth="108.0" text="Student Name" />
             <TableColumn fx:id="colPrFee" prefWidth="98.0" text="Program fee" />

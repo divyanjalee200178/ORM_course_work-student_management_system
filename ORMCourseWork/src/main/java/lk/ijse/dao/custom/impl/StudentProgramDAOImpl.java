@@ -55,17 +55,29 @@ public class StudentProgramDAOImpl implements StudentProgrameDAO {
         return null;
     }
 
+//    @Override
+//    public List<Register> getAll() {
+//        Session session = FactoryConfiguration.getInstance().getSession();
+//        Transaction transaction = session.beginTransaction();
+//
+//        Query query = session.createQuery("from Register");
+//        List<Register> registrations = query.list();
+//        transaction.commit();
+//        session.close();
+//        return registrations;
+//    }
+
     @Override
     public List<Register> getAll() {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
-
-        Query query = session.createQuery("from Register ");
+        Query query = session.createQuery("from Register");
         List<Register> registrations = query.list();
         transaction.commit();
         session.close();
         return registrations;
     }
+
 
     @Override
     public Register search(String id) {
@@ -108,30 +120,29 @@ public class StudentProgramDAOImpl implements StudentProgrameDAO {
 
 
     public String generateRegisterId() {
-        return UUID.randomUUID().toString(); // Generates a unique UUID as a string
+        return UUID.randomUUID().toString();
     }
-//    Register register = new Register();
-//    register.setRegister_id(generateRegisterId());
+
 
     public boolean saveRegistration(List<Register> registrationList, Session session) {
         Transaction transaction = null;
         try {
-            // Begin a transaction
+
             transaction = session.beginTransaction();
 
-            // Save the Register object
+
             session.save(registrationList);
 
-            // Commit the transaction
+
             transaction.commit();
-            return true;  // Registration successfully saved
+            return true;
         } catch (HibernateException e) {
-            // Rollback the transaction in case of error
+
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();  // Log the error (can use logging frameworks)
-            return false;  // Error occurred
+            e.printStackTrace();
+            return false;
         }
     }
 

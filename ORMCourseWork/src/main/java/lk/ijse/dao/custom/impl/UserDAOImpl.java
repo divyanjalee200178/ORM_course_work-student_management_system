@@ -10,12 +10,57 @@ import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
+
+    private Connection connection;
+
+    public UserDAOImpl(){
+
+    }
+
+    public UserDAOImpl(Connection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public User getUserById(String userId) throws SQLException {
+        String query = "SELECT * FROM users WHERE userId = ?";
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setString(1, userId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getString("userId"),
+                        rs.getString("name"),
+                        rs.getString("role"),
+                        rs.getString("tel"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                );
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String getPasswordHashByUserId(String userId) {
+        try ( Session session = FactoryConfiguration.getInstance().getSession()) {
+            String hql = "SELECT u.password FROM User u WHERE u.userId = :userId";
+            return session.createQuery(hql, String.class)
+                    .setParameter("userId", userId)
+                    .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @Override
     public boolean save(User object) {

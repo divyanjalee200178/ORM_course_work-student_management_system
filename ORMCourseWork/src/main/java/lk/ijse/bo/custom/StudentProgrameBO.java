@@ -20,7 +20,9 @@ public interface StudentProgrameBO extends SuperBO {
 
     public ProgramDTO searchProgram(String programId);
 
-    List<RegisterDTO> getAll();
+//    List<RegisterDTO> getAll();
+List<RegisterDTO> getAll();
+
 //    boolean save(CartTm cartTm);
 //
 //    void placeOfRegister(List<RegisterDTO> registrationDTOList);

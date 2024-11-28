@@ -49,18 +49,58 @@ public class StudentProgrammeBOIml implements StudentProgrameBO {
         this.paymentDAO1 = new PaymentDAOImpl();
     }
 
+//    @Override
+//    public List<RegisterDTO> getAll() {
+//        /*List<RegisterDTO> registerDTOS = new ArrayList<>();
+//        List<Register> all = studentProgramDAO.getAll();
+//        for (Register register : all){
+//            registerDTOS.add(new RegisterDTO(register.getRegister_id(),register.getDate(),register.getStudentName(),register.getProgramName(),register.getProgramFee(),register.getRegiFee()));
+//        }
+//        return registerDTOS;*/
+//        List<RegisterDTO> regList = new ArrayList<>();
+//        List<Register> registrations = studentProgramDAO.getAll();
+////
+////
+////        for (Register registration : registrations){
+////
+////            Program programDTO = new Program(registration.getProgram().getCode());
+////            Student studentDTO = new Student(registration.getStudent().getId());
+////
+////          /*  System.out.println(programDTO);
+////*/
+////            RegisterDTO registrationDTO = new RegisterDTO(registration.getRegister_id(),registration.getDate(),studentDTO,programDTO,registration.getStudentName(),registration.getProgramName(),registration.getProgramFee(),registration.getRegiFee());
+////            regList.add(registrationDTO);
+////        }
+////        return regList;
+////    }
+//
+//    }
+
     @Override
     public List<RegisterDTO> getAll() {
-        List<RegisterDTO> registerDTOS = new ArrayList<>();
-        List<Register> all = studentProgramDAO.getAll();
-        for (Register register : all){
-            registerDTOS.add(new RegisterDTO(register.getRegister_id(),register.getDate(),register.getStudentName(),register.getProgramName(),register.getProgramFee(),register.getRegiFee()));
+        List<RegisterDTO> registerDTOList = new ArrayList<>();
+        List<Register> registerList = studentProgramDAO.getAll(); // Fetch data from DAO
+
+        // Map Register entities to RegisterDTO
+        for (Register register : registerList) {
+            RegisterDTO registerDTO = new RegisterDTO(
+                    register.getRegister_id(),
+                    register.getDate(),
+                    register.getStudent(),
+                    register.getProgram(),
+                    register.getStudentName(),
+                    register.getProgramName(),
+                    register.getProgramFee(),
+                    register.getRegiFee()
+            );
+            registerDTOList.add(registerDTO);
         }
-        return registerDTOS;
+
+        return registerDTOList; // Return DTO list
     }
 
+
     private String generateRegisterId() {
-        // Generate or assign an ID for the Register entity, can be UUID or sequential
         return UUID.randomUUID().toString();  // Example of generating a UUID
     }
 
@@ -73,24 +113,26 @@ public class StudentProgrammeBOIml implements StudentProgrameBO {
     @Override
     public ProgramDTO searchProgram(String programId) {
         Program program = programDAO.search(programId);
+
         return new ProgramDTO(program.getCode(),program.getName(),program.getPrice(),program.getDuration());
     }
 
 
     @Override
     public boolean saveRegistration(RegisterDTO registrationDTO) {
-        return studentProgramDAO.save(new Register(registrationDTO.getRegister_id(),registrationDTO.getDate(),registrationDTO.getStudent(),registrationDTO.getProgram(),registrationDTO.getStudentName(),registrationDTO.getProgramName(),registrationDTO.getProgramFee(),registrationDTO.getRegiFee()));
+
+        Program programDTO =registrationDTO.getProgram();
+        Program program = new Program(programDTO.getCode());
+
+
+        Student studedntDto = registrationDTO.getStudent();
+        Student student = new Student(studedntDto.getId());
+
+        return studentProgramDAO.save(new Register(registrationDTO.getRegister_id(),registrationDTO.getDate(),student,program,registrationDTO.getStudentName(),registrationDTO.getProgramName(),registrationDTO.getProgramFee(),registrationDTO.getRegiFee()));
     }
     @Override
     public List<RegisterDTO> getAllRegistrations() {
-        List<Register> registrations = studentProgramDAO.getAll();
-        List<RegisterDTO> regList = new ArrayList<>();
-
-        for (Register registration : registrations){
-            RegisterDTO registrationDTO = new RegisterDTO(registration.getRegister_id(),registration.getDate(),registration.getStudent(),registration.getProgram(),registration.getStudentName(),registration.getProgramName(),registration.getProgramFee(),registration.getRegiFee());
-            regList.add(registrationDTO);
-        }
-        return regList;
+                return null;
     }
     @Override
     public String getCurrentId() {

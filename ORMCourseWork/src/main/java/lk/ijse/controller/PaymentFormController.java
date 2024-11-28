@@ -94,6 +94,7 @@ public class PaymentFormController {
         generatePaymentId();
         loadComboBoxes();
         selectTableRow();
+        loadAllPayments();
 
 
 
@@ -102,6 +103,31 @@ public class PaymentFormController {
 
     }
 
+    private void loadAllPayments() {
+        ObservableList<PaymentTm> paymentTms = FXCollections.observableArrayList();
+        try {
+            // Fetch all payment records from the database using the PaymentBO
+            List<PaymentDTO> allPayments = paymentBO.getAll();
+
+            // Map each PaymentDTO to a PaymentTm and add it to the ObservableList
+            for (PaymentDTO paymentDTO : allPayments) {
+                PaymentTm paymentTm = new PaymentTm(
+                        paymentDTO.getId(),                    // Payment ID
+                        paymentDTO.getFee(),                  // Total fee
+                        paymentDTO.getRegisterFee(),          // Registration fee
+                        paymentDTO.getTotalFee()              // Total payment
+                );
+                paymentTms.add(paymentTm);
+            }
+
+            // Populate the TableView with the list of PaymentTm objects
+            tblPayment.setItems(paymentTms);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to load payments. Please try again.").show();
+        }
+    }
     private void loadComboBoxes() {
         try {
             List<StudentDTO> studentList = studentBO.getAll();
